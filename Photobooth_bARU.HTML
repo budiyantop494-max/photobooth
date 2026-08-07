@@ -1,0 +1,4118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photobooth HUMAS BMKG 2026</title>
+    <!-- Google Fonts - Inter for modern typography & Pacifico for HumaSnap title -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            height: 100%;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0D0117;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px 20px 30px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Gradient blobs wrapper - DISABLED agar nyambung dengan landing page parent (solid #0D0117) */
+        .bg-blobs {
+            display: none !important;
+        }
+
+        .bg-blob-pink {
+            display: none !important;
+        }
+
+        .bg-blob-purple {
+            display: none !important;
+        }
+
+        .bg-blob-yellow {
+            display: none !important;
+        }
+
+        /* Decorative floating shapes - DISABLED agar warna solid seragam */
+        .bg-shapes {
+            display: none !important;
+        }
+
+        .shape-pink,
+        .shape-yellow,
+        .shape-purple {
+            display: none !important;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(12deg) translateY(0); }
+            50% { transform: rotate(12deg) translateY(-20px); }
+        }
+
+        @keyframes float-delay {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes float-delay2 {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(-18px); }
+        }
+
+        .header {
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 15px 35px;
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .header img { 
+            height: 65px;
+            display: block;
+            margin: 0 auto;
+            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .humasnap-title {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            font-size: clamp(2rem, 7vw, 5rem);
+            font-family: 'Pacifico', cursive;
+            background: linear-gradient(135deg, #FF2D78 0%, #FFE500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .photobooth-wrapper {
+            position: relative;
+            display: flex;
+            gap: 35px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 640px;
+            height: 480px;
+            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .camera-container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.2), rgba(150, 100, 255, 0.2), transparent 50%);
+            border-radius: 30px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        #frame-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            object-fit: contain;
+            z-index: 10;
+            display: none;
+        }
+
+        #countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            z-index: 20;
+            display: none;
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: translate(-50%, -50%) scale(1); }
+            to { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 340px;
+        }
+
+        .status-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 28px;
+            border-radius: 28px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .status-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(100, 150, 255, 0.5), transparent);
+            border-radius: 28px 28px 0 0;
+        }
+
+        .upload-section {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 18px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .upload-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.95);
+        }
+        
+        .upload-section input[type="text"] {
+            width: 100%;
+            margin-top: 5px;
+            color: #333;
+            background: #fff;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .upload-section input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+        
+        .upload-section input[type="file"] {
+            width: 100%;
+            margin-top: 8px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        button, a.btn {
+            width: 100%;
+            padding: 18px 24px;
+            margin-bottom: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before, a.btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        button:hover:not(:disabled)::before, a.btn:hover::before {
+            left: 100%;
+        }
+
+        button:hover:not(:disabled), a.btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        button:active:not(:disabled) {
+            transform: translateY(-2px) scale(0.99);
+        }
+        
+        button:disabled {
+            background: linear-gradient(45deg, #4a5568 0%, #2d3748 100%);
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        #startBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        #snapBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            font-size: 18px;
+            padding: 24px;
+            box-shadow: 0 10px 35px rgba(245, 87, 108, 0.5);
+        }
+
+        .flash-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s ease-out;
+        }
+        
+        .flash-active {
+            opacity: 1;
+        }
+
+        .gallery-section {
+            width: 100%;
+            max-width: 1100px;
+            margin-top: 50px;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .gallery-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .gallery-grid.portrait-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 25px;
+            justify-items: center;
+        }
+
+        .gallery-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .gallery-item.portrait-item {
+            width: 100%;
+            max-width: 420px;
+            grid-column: span 1;
+        }
+
+        .gallery-grid.portrait-layout .gallery-item {
+            width: 100%;
+            max-width: 860px;
+        }
+
+        .gallery-grid.portrait-layout .gallery-item:nth-child(1) {
+            max-width: 420px;
+            justify-self: center;
+        }
+
+        .gallery-grid.portrait-layout .gallery-item:nth-child(2),
+        .gallery-grid.portrait-layout .gallery-item:nth-child(3) {
+            max-width: 420px;
+        }
+
+        .gallery-grid.portrait-layout .gallery-item:nth-child(4) {
+            max-width: 420px;
+            justify-self: center;
+        }
+
+        .gallery-item .btn-delete {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            min-width: unset;
+            padding: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.45);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.7) translate(6px, -6px);
+            pointer-events: none;
+            font-family: inherit;
+        }
+
+        .gallery-item:hover .btn-delete,
+        .gallery-item:focus-within .btn-delete {
+            opacity: 1;
+            transform: scale(1) translate(0, 0);
+            pointer-events: auto;
+        }
+
+        .gallery-item .btn-delete:hover {
+            transform: scale(1.12) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.65);
+            background: linear-gradient(135deg, #FF4757 0%, #c0392b 100%);
+        }
+
+        .gallery-item .btn-delete:active {
+            transform: scale(0.92);
+        }
+
+        .gallery-item.deleting {
+            transform: scale(0.85) rotate(-3deg) !important;
+            opacity: 0;
+            filter: blur(4px);
+            pointer-events: none;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            border-radius: 24px 24px 0 0;
+        }
+        
+        .gallery-item img.photo-preview {
+            width: 100%;
+            border-radius: 14px;
+            object-fit: cover;
+            margin-bottom: 18px;
+        }
+        
+        .gallery-item a.btn-download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+        }
+        
+        .gallery-item button.btn-drive {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 14px;
+            font-size: 14px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.35);
+        }
+        
+        .loading-text {
+            font-size: 14px;
+            color: #f5576c;
+            font-weight: 700;
+            display: none;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .qr-wrapper {
+            margin-top: 18px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 16px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .qr-wrapper p {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #334155;
+            font-weight: 700;
+        }
+        
+        .qr-wrapper .qr-code-img {
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Menu Button Styles */
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientFlow 3s ease infinite;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .menu-button:hover {
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+        }
+
+        .menu-button svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a202c;
+        }
+
+        .close-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f7fafc;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: #edf2f7;
+            transform: rotate(90deg);
+        }
+
+        .close-button svg {
+            width: 20px;
+            height: 20px;
+            fill: #4a5568;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .setting-item {
+            margin-bottom: 25px;
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            display: block;
+            font-weight: 700;
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .setting-description {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 12px;
+        }
+
+        .setting-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .setting-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .setting-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .setting-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .setting-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .setting-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .setting-checkbox-label {
+            font-size: 15px;
+            color: #2d3748;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #4a5568;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Sidebar Styles */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 50%, rgba(15, 52, 96, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 50px rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sidebar-logo img {
+            height: 45px;
+            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .sidebar-logo h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .sidebar-close svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 25px 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+            border-radius: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, #667eea, #764ba2, #f093fb, #f5576c);
+            border-radius: 0 4px 4px 0;
+            transition: height 0.3s ease;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            color: #fff;
+        }
+
+        .sidebar-item.active::before {
+            height: 70%;
+        }
+
+        .sidebar-item svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            margin: 20px 0;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 10px 0 15px 5px;
+        }
+
+        .sidebar-footer {
+            padding: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        .sidebar-footer p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .sidebar-footer p:first-child {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Fullscreen Toggle Button */
+        .fullscreen-toggle-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 30;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            margin: 0;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .fullscreen-toggle-btn:hover {
+            background: rgba(102, 126, 234, 0.7);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .fullscreen-toggle-btn::before {
+            display: none;
+        }
+
+        .fullscreen-toggle-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        /* Fullscreen View Only Mode */
+        .camera-container:fullscreen,
+        .camera-container:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            background: #000 !important;
+        }
+
+        .camera-container:fullscreen video,
+        .camera-container:-webkit-full-screen video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .camera-container:fullscreen #frame-overlay,
+        .camera-container:-webkit-full-screen #frame-overlay {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .camera-container:fullscreen .fullscreen-toggle-btn,
+        .camera-container:-webkit-full-screen .fullscreen-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .camera-container:fullscreen .fullscreen-toggle-btn:hover,
+        .camera-container:-webkit-full-screen .fullscreen-toggle-btn:hover {
+            background: rgba(245, 87, 108, 0.7);
+        }
+
+        /* View-only info overlay in fullscreen */
+        .camera-container .fullscreen-info {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 35;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .camera-container:fullscreen .fullscreen-info,
+        .camera-container:-webkit-full-screen .fullscreen-info {
+            opacity: 1;
+            position: fixed;
+            bottom: 25px;
+            font-size: 14px;
+            padding: 12px 24px;
+        }
+
+        /* =========================================
+           PRESENTER MODE (Tab Baru untuk Monitor)
+           ========================================= */
+        html.presenter-mode-enabled,
+        html.presenter-mode-enabled body,
+        body.presenter-mode {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
+            color: #000 !important;
+            overflow: hidden !important;
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            width: 100vw !important;
+            border: 0 !important;
+            outline: 0 !important;
+        }
+
+        /* AGRRESIF: Hapus semua border-radius, shadow, border di SEMUA ELEMEN presenter-mode */
+        body.presenter-mode *,
+        body.presenter-mode *::before,
+        body.presenter-mode *::after {
+            border-radius: 0 !important;
+            -webkit-border-radius: 0 !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            border: 0 !important;
+            outline: 0 !important;
+            background-image: none !important;
+            text-shadow: none !important;
+        }
+
+        body.presenter-mode .header,
+        body.presenter-mode .humasnap-title,
+        body.presenter-mode .side-panel,
+        body.presenter-mode .gallery-section,
+        body.presenter-mode .page-footer,
+        body.presenter-mode #canvas,
+        body.presenter-mode .menu-button,
+        body.presenter-mode .sidebar,
+        body.presenter-mode .sidebar-overlay,
+        body.presenter-mode .modal-overlay,
+        body.presenter-mode #flashScreen,
+        body.presenter-mode .presenter-hud,
+        body.presenter-mode .presenter-photo-preview,
+        body.presenter-mode .bg-blobs,
+        body.presenter-mode .bg-shapes,
+        body.presenter-mode .bg-blob-pink,
+        body.presenter-mode .bg-blob-purple,
+        body.presenter-mode .bg-blob-yellow,
+        body.presenter-mode .shape-pink,
+        body.presenter-mode .shape-yellow,
+        body.presenter-mode .shape-purple {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            left: -99999px !important;
+            top: -99999px !important;
+            pointer-events: none !important;
+        }
+
+        body.presenter-mode .photobooth-wrapper {
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            gap: 0 !important;
+            max-width: 100% !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
+            flex-wrap: nowrap !important;
+            display: block !important;
+            overflow: hidden !important;
+            z-index: 1 !important;
+        }
+
+        body.presenter-mode .camera-container,
+        body.presenter-mode #cameraContainer {
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            display: block !important;
+            z-index: 2 !important;
+        }
+
+        body.presenter-mode .camera-container::before,
+        body.presenter-mode .camera-container::after {
+            display: none !important;
+            content: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            width: 0 !important;
+            border: 0 !important;
+            background: none !important;
+        }
+
+        body.presenter-mode .camera-container video,
+        body.presenter-mode #cameraContainer video {
+            object-fit: cover !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-width: 100% !important;
+            min-height: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            position: absolute !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            transform: scaleX(-1) !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+            filter: none !important;
+        }
+
+        body.presenter-mode .camera-container #frame-overlay,
+        body.presenter-mode .fullscreen-toggle-btn,
+        body.presenter-mode .camera-container .fullscreen-info {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            width: 0 !important;
+        }
+
+        /* Presenter Mode: COUNTDOWN 3-2-1 OVERLAY (NO SHAPE, HANYA ANGKA) */
+        body.presenter-mode .camera-container #countdown,
+        body.presenter-mode #countdown {
+            /* Unhide & letakkan di tengah monitor */
+            display: block !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: translate(-50%, -50%) !important;
+            -webkit-transform: translate(-50%, -50%) !important;
+
+            /* Hapus SEMUA shape/box */
+            background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: auto !important;
+            height: auto !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+
+            /* Teks angka: besar, gradien pink-kuning, TAJAM & JELAS */
+            font-family: 'Pacifico', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            font-weight: 900 !important;
+            line-height: 1 !important;
+            letter-spacing: -0.04em !important;
+            text-align: center !important;
+            opacity: 1 !important;
+
+            /* Ukuran: responsif 50% of min(lebar,tinggi) monitor — di-boost sedikit lebih besar */
+            font-size: 50vmin !important;
+            font-size: clamp(220px, 50vmin, 720px) !important;
+            z-index: 9999999 !important;
+
+            pointer-events: none !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            will-change: transform, opacity !important;
+        }
+
+        /* Wrapper teks countdown (jika ada span): GRADIEN PINK-KUNING SUPER PEKAT + OUTLINE PUTIH + GLOW */
+        body.presenter-mode #countdown,
+        body.presenter-mode #countdown * {
+            /* GRADIENT: Pink -> Orange -> Gold -> Kuning (4 stop WARNA LEBIH KAYA, TIDAK PUCAT) */
+            background: linear-gradient(
+                135deg,
+                #FF1060 0%,
+                #FF2D78 25%,
+                #FF6A00 55%,
+                #FFC700 80%,
+                #FFE500 100%
+            ) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+
+            /* === LAPIS-LAPIS GLOW (text-shadow stack) agar TERBACA jelas walau video terang/gelap === */
+            /* 1) Glow Pink dekat (edge vibrancy) */
+            /* 2) Glow Kuning sedang (body glow) */
+            /* 3) Glow Putih LUAR (halo tajam, agar tidak nyatu dengan background video) */
+            /* 4) Drop shadow hitam (kontras) */
+            filter:
+                drop-shadow(0 0 12px rgba(255, 45, 120, 0.95))
+                drop-shadow(0 0 28px rgba(255, 140, 0, 0.75))
+                drop-shadow(0 0 60px rgba(255, 229, 0, 0.60))
+                drop-shadow(0 12px 40px rgba(0, 0, 0, 0.85)) !important;
+
+            /* Outline putih TIPIS dengan text-shadow stack — agar angka tetap punya bentuk walau videonya full warna cerah */
+            text-shadow:
+                -2px -2px 0 rgba(255,255,255,0.95),
+                 2px -2px 0 rgba(255,255,255,0.95),
+                -2px  2px 0 rgba(255,255,255,0.95),
+                 2px  2px 0 rgba(255,255,255,0.95),
+                 0    -3px 0 rgba(255,255,255,0.9),
+                 0     3px 0 rgba(255,255,255,0.9),
+                -3px  0   0 rgba(255,255,255,0.9),
+                 3px  0   0 rgba(255,255,255,0.9),
+                0 0 35px rgba(255, 45, 120, 0.95),
+                0 0 80px rgba(255, 120, 0, 0.75),
+                0 0 130px rgba(255, 229, 0, 0.55) !important;
+        }
+
+        /* Default (non-presenter): Sembunyikan elemen preview presenter agar tidak muncul broken image di atas logo */
+        .presenter-photo-preview { display: none !important; }
+        .presenter-flash { display: none !important; }
+        .presenter-hud { display: none !important; }
+
+        /* Presenter Flash Effect */
+        body.presenter-mode .presenter-flash {
+            display: block !important;
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s ease-out;
+        }
+
+        body.presenter-mode .presenter-flash.flash-active {
+            opacity: 1;
+        }
+
+        /* Presenter Photo Preview Overlay */
+        body.presenter-mode .presenter-photo-preview {
+            display: flex !important;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 99998;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        body.presenter-mode .presenter-photo-preview.active {
+            opacity: 1;
+        }
+
+        body.presenter-mode .presenter-photo-preview img {
+            display: block !important;
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        /* Presenter HUD */
+        body.presenter-mode .presenter-hud {
+            display: block !important;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 0 !important;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 100;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            max-width: 90vw;
+        }
+
+        body.presenter-mode .presenter-hud small {
+            display: block;
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        body.presenter-mode .camera-container .fullscreen-info {
+            display: none;
+        }
+
+        body.presenter-mode .camera-container #countdown {
+            font-size: 220px !important;
+            z-index: 99997 !important;
+        }
+
+        /* ============ FOOTER HUMAS BMKG ============ */
+        .page-footer {
+            width: 100%;
+            max-width: 1100px;
+            margin: 60px auto 0;
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-footer .footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .page-footer .footer-inner {
+                flex-direction: row;
+            }
+        }
+
+        .page-footer img {
+            height: 60px;
+            filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.2));
+        }
+
+        .page-footer p {
+            margin: 0;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Gradient Blobs - SAMA PERSIS dengan Landing Page -->
+    <div class="bg-blobs">
+        <div class="bg-blob-pink"></div>
+        <div class="bg-blob-purple"></div>
+        <div class="bg-blob-yellow"></div>
+    </div>
+
+    <!-- Decorative Floating Shapes - SAMA PERSIS dengan Landing Page -->
+    <div class="bg-shapes">
+        <div class="shape-pink"></div>
+        <div class="shape-yellow"></div>
+        <div class="shape-purple"></div>
+    </div>
+
+    <div id="flashScreen" class="flash-effect"></div>
+
+    <!-- Presenter Mode Elements -->
+    <div id="presenterFlash" class="presenter-flash"></div>
+    <div id="presenterPhotoPreview" class="presenter-photo-preview">
+        <img id="presenterPhotoImg" alt="Preview Foto">
+    </div>
+    <div id="presenterHud" class="presenter-hud" style="display:none;">
+        
+        <small></small>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Menu -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="https://www.bmkg.go.id/asset/img/logo/logo-bmkg.png" alt="Logo">
+                <h3>Photobooth</h3>
+            </div>
+            <button class="sidebar-close" id="sidebarClose">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-item active" data-section="main">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Beranda</span>
+            </a>
+            
+            <a href="#" class="sidebar-item" id="sidebarSettings">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+                <span>Pengaturan</span>
+            </a>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-section-title">Kamera</div>
+            
+            <a href="#" class="sidebar-item" id="sidebarStartCamera">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                </svg>
+                <span>Aktifkan Kamera</span>
+            </a>
+            
+            <a href="#" class="sidebar-item" id="sidebarTakePhoto">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z"/>
+                    <circle cx="12" cy="12" r="3.5"/>
+                </svg>
+                <span>Ambil Foto</span>
+            </a>
+
+            <a href="#" class="sidebar-item" id="sidebarFullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                </svg>
+                <span>Layar Penuh</span>
+            </a>
+
+            <a href="#" class="sidebar-item" id="sidebarPresenter">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/>
+                </svg>
+                <span>Tampilan Monitor (Tab Baru)</span>
+            </a>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-section-title">Galeri</div>
+            
+            <a href="#" class="sidebar-item" id="sidebarViewGallery">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                </svg>
+                <span>Lihat Galeri</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <p>Photobooth v1.0</p>
+            <p>HUMAS BMKG 2026</p>
+        </div>
+    </aside>
+
+    <!-- Menu Button (toggle sidebar) -->
+    <button class="menu-button" id="menuButton" title="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </button>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Pengaturan</h2>
+                <button class="close-button" id="closeModalBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label class="setting-label">Jenis Kamera</label>
+                    <p class="setting-description">Pilih jenis kamera untuk menyesuaikan konfigurasi</p>
+                    <select class="setting-select" id="settingCameraType">
+                        <option value="default">Default (Webcam)</option>
+                        <option value="canon">Canon</option>
+                        <option value="sony">Sony</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Resolusi Kamera</label>
+                    <p class="setting-description">Resolusi output foto yang akan dihasilkan</p>
+                    <select class="setting-select" id="settingCameraResolution">
+                        <option value="1280x720">HD (1280 x 720)</option>
+                        <option value="1920x1080">Full HD (1920 x 1080) - Default</option>
+                        <option value="3840x2160">4K (3840 x 2160)</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">Tata Letak Foto</label>
+                    <p class="setting-description">Pilih layout hasil foto di galeri.</p>
+                    <select class="setting-select" id="settingPhotoLayout">
+                        <option value="standard">Standar</option>
+                        <option value="portrait">Portrait (1 atas, 2 tengah, 3 bawah)</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">URL Google Apps Script</label>
+                    <p class="setting-description">URL untuk mengupload foto ke Google Drive</p>
+                    <input type="text" class="setting-input" id="settingGoogleScriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">URL Server DSLR Lokal</label>
+                    <p class="setting-description">URL server lokal untuk kontrol kamera Canon/Sony</p>
+                    <input type="text" class="setting-input" id="settingDslrServerUrl" placeholder="http://localhost:3000">
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Nama Event Default</label>
+                    <p class="setting-description">Nama event yang akan otomatis terisi</p>
+                    <input type="text" class="setting-input" id="settingDefaultEventName" placeholder="Masukkan nama event">
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Kualitas Foto</label>
+                    <p class="setting-description">Semakin tinggi kualitas, ukuran file semakin besar</p>
+                    <select class="setting-select" id="settingPhotoQuality">
+                        <option value="0.4">Rendah (40%)</option>
+                        <option value="0.6">Sedang (60%) - Default</option>
+                        <option value="0.8">Tinggi (80%)</option>
+                        <option value="1.0">Sangat Tinggi (100%)</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Hitung Mundur</label>
+                    <div class="setting-checkbox-wrapper">
+                        <input type="checkbox" class="setting-checkbox" id="settingCountdown" checked>
+                        <label class="setting-checkbox-label" for="settingCountdown">Tampilkan hitung mundur sebelum foto</label>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Efek Flash</label>
+                    <div class="setting-checkbox-wrapper">
+                        <input type="checkbox" class="setting-checkbox" id="settingFlash" checked>
+                        <label class="setting-checkbox-label" for="settingFlash">Tampilkan efek flash saat mengambil foto</label>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">Bingkai Foto</label>
+                    <p class="setting-description">Upload gambar PNG untuk bingkai foto (disimpan otomatis)</p>
+                    <input type="file" class="setting-input" id="settingFrameUpload" accept="image/png">
+                    <button class="btn-secondary" id="removeFrameBtn" style="margin-top:10px; width:100%;">Hapus Bingkai</button>
+                    <div id="framePreview" style="margin-top:10px; text-align:center;">
+                        <img id="framePreviewImg" style="max-width:200px; max-height:200px; border-radius:8px; display:none;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="resetSettingsBtn">Reset Default</button>
+                <button class="btn-primary" id="saveSettingsBtn">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="humasnap-title">HumaSnap</h1>
+
+    <div class="header">
+        <img src="https://www.bmkg.go.id/asset/img/logo/logo-bmkg.png" alt="Logo BMKG">
+    </div>
+
+    <div class="photobooth-wrapper">
+        <div class="camera-container" id="cameraContainer">
+            <button class="fullscreen-toggle-btn" id="fullscreenBtn" title="Layar Penuh (View Only)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="fullscreenIcon">
+                    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                </svg>
+            </button>
+            <video id="video" autoplay playsinline></video>
+            <img id="frame-overlay" alt="Frame">
+            <div id="countdown">3</div>
+            <div class="fullscreen-info" id="fullscreenInfo">
+                👁️ Mode View Only — Tekan <strong>ESC</strong> atau klik tombol untuk keluar
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="status-box">
+                <div class="upload-section">
+                    <label><strong>Nama Folder / Peserta:</strong></label>
+                    <input type="text" id="eventNameInput" class="event-input" placeholder="Contoh: Nama Ibrahim">
+                </div>
+
+
+
+                <button id="startBtn">Aktifkan Kamera</button>
+                <button id="snapBtn" disabled> Shutter!</button>
+                <p id="statusText" style="font-size: 14px; color: #fdf7f7; margin-top: 10px;">Kamera belum aktif</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="gallery-section" id="gallerySection">
+        <h2>🎞️ Hasil Foto Sesi Ini</h2>
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <footer class="page-footer">
+        <div class="footer-inner">
+            <img src="https://www.bmkg.go.id/asset/img/logo/logo-bmkg.png" alt="Logo BMKG">
+            <p>© 2026 HUMAS BMKG.</p>
+        </div>
+    </footer>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+
+    <script>
+        // Default Settings
+        const defaultSettings = {
+            cameraType: "default",
+            cameraResolution: "1920x1080",
+            photoLayout: "standard",
+            googleScriptUrl: "https://script.google.com/macros/s/AKfycbwFESq2a-UmW4CUYTuxUjs1-wrFGHpCjzunAZRqKGRYrVYLnIKdpNrTa9MwFbbLcuEH0w/exec",
+            defaultEventName: "",
+            photoQuality: 0.6,
+            enableCountdown: true,
+            enableFlash: true,
+            dslrServerUrl: "http://localhost:3000",
+            frameData: ""
+        };
+
+        // Load Settings from localStorage
+        function loadSettings() {
+            const saved = localStorage.getItem('photoboothSettings');
+            if (saved) {
+                return { ...defaultSettings, ...JSON.parse(saved) };
+            }
+            return defaultSettings;
+        }
+
+        // Save Settings to localStorage
+        function saveSettings(settings) {
+            localStorage.setItem('photoboothSettings', JSON.stringify(settings));
+        }
+
+        // Current Settings
+        let settings = loadSettings();
+        let GOOGLE_SCRIPT_URL = settings.googleScriptUrl;
+
+        // DOM Elements
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const startBtn = document.getElementById('startBtn');
+        const snapBtn = document.getElementById('snapBtn');
+        const frameOverlay = document.getElementById('frame-overlay');
+        const eventNameInput = document.getElementById('eventNameInput');
+        const countdownEl = document.getElementById('countdown');
+        const flashScreen = document.getElementById('flashScreen');
+        const statusText = document.getElementById('statusText');
+        const gallerySection = document.getElementById('gallerySection');
+        const galleryGrid = document.getElementById('galleryGrid');
+        
+        // Menu & Settings Elements
+        const menuButton = document.getElementById('menuButton');
+        const settingsModal = document.getElementById('settingsModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const resetSettingsBtn = document.getElementById('resetSettingsBtn');
+        const settingCameraType = document.getElementById('settingCameraType');
+        const settingCameraResolution = document.getElementById('settingCameraResolution');
+        const settingPhotoLayout = document.getElementById('settingPhotoLayout');
+        const settingGoogleScriptUrl = document.getElementById('settingGoogleScriptUrl');
+        const settingDslrServerUrl = document.getElementById('settingDslrServerUrl');
+        const settingDefaultEventName = document.getElementById('settingDefaultEventName');
+        const settingPhotoQuality = document.getElementById('settingPhotoQuality');
+        const settingCountdown = document.getElementById('settingCountdown');
+        const settingFlash = document.getElementById('settingFlash');
+        const settingFrameUpload = document.getElementById('settingFrameUpload');
+        const removeFrameBtn = document.getElementById('removeFrameBtn');
+        const framePreviewImg = document.getElementById('framePreviewImg');
+        
+        // Sidebar Elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const sidebarSettings = document.getElementById('sidebarSettings');
+        const sidebarStartCamera = document.getElementById('sidebarStartCamera');
+        const sidebarTakePhoto = document.getElementById('sidebarTakePhoto');
+        const sidebarFullscreen = document.getElementById('sidebarFullscreen');
+        const sidebarPresenter = document.getElementById('sidebarPresenter');
+        const sidebarViewGallery = document.getElementById('sidebarViewGallery');
+
+        // Fullscreen Elements
+        const cameraContainer = document.getElementById('cameraContainer');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const fullscreenIcon = document.getElementById('fullscreenIcon');
+        const fullscreenInfo = document.getElementById('fullscreenInfo');
+
+        // Presenter Mode Elements
+        const presenterFlash = document.getElementById('presenterFlash');
+        const presenterPhotoPreview = document.getElementById('presenterPhotoPreview');
+        const presenterPhotoImg = document.getElementById('presenterPhotoImg');
+        const presenterHud = document.getElementById('presenterHud');
+
+        // ========================================================
+        // DETECT PRESENTER MODE (from URL ?presenter=1)
+        // ========================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const IS_PRESENTER_MODE = urlParams.get('presenter') === '1';
+        const FALLBACK_VIEW_KEY = urlParams.get('view');
+
+        // ========================================================
+        // FALLBACK QR VIEWER (if ?view=... key present)
+        // ========================================================
+        (function handleFallbackViewer() {
+            if (!FALLBACK_VIEW_KEY) return;
+            try {
+                const raw = localStorage.getItem(FALLBACK_VIEW_KEY);
+                if (!raw) {
+                    document.body.innerHTML =
+                        '<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;">' +
+                        '<div style="max-width:500px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:36px;border-radius:24px;text-align:center;backdrop-filter:blur(20px);">' +
+                        '<h2 style="margin:0 0 16px 0;font-size:26px;color:#FF2D78;">❌ Link Sudah Kadaluarsa</h2>' +
+                        '<p style="margin:0;color:rgba(255,255,255,0.75);line-height:1.7;">Foto ini disimpan hanya di browser yang sama & user yang sama saat mengambil foto.<br><br>Minta temanmu <strong>klik tombol "⬇️ Download Foto"</strong> di perangkat aslinya, lalu share foto via WhatsApp/Email.</p>' +
+                        '</div></div>';
+                    return;
+                }
+                const parsed = JSON.parse(raw);
+                if (!parsed || !parsed.d) throw new Error('empty');
+                const { d: dataUrl, n: fileName } = parsed;
+                document.body.innerHTML =
+                    '<!DOCTYPE html>'.replace('<!DOCTYPE html>', '') +
+                    '<style>' +
+                    '*{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100vh;}' +
+                    'body{font-family:Inter,Segoe UI,sans-serif;background:linear-gradient(135deg,#0D0117,#1E0535,#0f3460);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:24px;}' +
+                    '.c{max-width:640px;width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:28px;border-radius:28px;backdrop-filter:blur(20px);box-shadow:0 30px 80px rgba(0,0,0,0.5);}' +
+                    'h1{margin:0 0 8px 0;font-size:clamp(22px,5vw,32px);background:linear-gradient(135deg,#FF2D78,#FFE500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}' +
+                    'p.sub{margin:0 0 20px 0;color:rgba(255,255,255,0.65);font-size:14px;}' +
+                    'img.photo{width:100%;height:auto;border-radius:18px;box-shadow:0 15px 40px rgba(0,0,0,0.4);border:2px solid rgba(255,255,255,0.1);}' +
+                    '.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;}' +
+                    '.btn{flex:1;min-width:160px;padding:16px 20px;border-radius:18px;border:none;font-weight:800;font-size:15px;cursor:pointer;transition:all .25s;color:#fff;}' +
+                    '.btn:active{transform:scale(.97)}' +
+                    '.dl{background:linear-gradient(135deg,#667eea,#764ba2);box-shadow:0 8px 24px rgba(102,126,234,.35)}' +
+                    '.dl:hover{transform:translateY(-2px)}' +
+                    '.wa{background:linear-gradient(135deg,#25D366,#128C7E);box-shadow:0 8px 24px rgba(37,211,102,.35)}' +
+                    '.wa:hover{transform:translateY(-2px)}' +
+                    '@media(max-width:480px){.c{padding:20px;border-radius:22px}}' +
+                    '</style>' +
+                    '<div class="c">' +
+                    '<img src="https://www.bmkg.go.id/asset/img/logo/logo-bmkg.png" style="height:52px;margin:0 auto 8px;display:block;filter:drop-shadow(0 2px 10px rgba(255,229,0,0.35));">' +
+                    '<h1 style="text-align:center;">HumaSnap — Foto Kamu</h1>' +
+                    '<p class="sub" style="text-align:center;">Tekan tombol dibawah untuk simpan ke galeri perangkat</p>' +
+                    '<img class="photo" src="' + dataUrl + '" alt="Foto Photobooth">' +
+                    '<div class="btns">' +
+                    '<a class="btn dl" href="' + dataUrl + '" download="' + (fileName || 'HumaSnap_Foto.jpg') + '" style="text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">⬇️ Download Foto</a>' +
+                    '<button class="btn wa" onclick="shareWA()">💬 Share via WhatsApp</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '<script>' +
+                    'function shareWA(){' +
+                    'try{const t="Saya dapat foto ini dari HumaSnap BMKG! 📸 ";const f=new File([dataUrltoBlob(document.querySelector(\'.btn.dl\').href)],"' + (fileName || 'HumaSnap_Foto.jpg') + '",{type:"image/jpeg"});' +
+                    'if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({title:"Foto HumaSnap BMKG",text:t,files:[f]});}' +
+                    'else{alert("");}' +
+                    '}catch(e){alert("Download dulu foto ini, lalu share via WhatsApp ya 🙏");}' +
+                    '}' +
+                    'function dataUrltoBlob(d){const p=d.split(",");const b=atob(p[1]);const t=p[0].match(/:(.*?);/)[1];const l=b.length;const u8=new Uint8Array(l);for(let i=0;i<l;i++)u8[i]=b.charCodeAt(i);return new Blob([u8],{type:t});}' +
+                    '<\/script>';
+            } catch (e) {
+                document.body.innerHTML = '<div style="padding:40px;color:#fff;">Gagal memuat foto: ' + String(e.message || e) + '</div>';
+            }
+        })();
+
+        // ========================================================
+        // BROADCAST CHANNEL — Communication between tabs
+        // ========================================================
+        let broadcastChannel = null;
+        try {
+            broadcastChannel = new BroadcastChannel('photobooth_presenter_channel');
+        } catch (e) {
+            console.warn('BroadcastChannel not supported:', e);
+        }
+
+        // ========================================================
+        // GALLERY PERSISTENCE (localStorage — survive page refresh)
+        // ========================================================
+        const GALLERY_STORAGE_KEY = 'photobooth_gallery_v1';
+        const GALLERY_MAX_ITEMS = 30; // safety to avoid localStorage quota (~5MB)
+
+        function loadGalleryFromStorage() {
+            try {
+                const raw = localStorage.getItem(GALLERY_STORAGE_KEY);
+                if (!raw) return [];
+                const arr = JSON.parse(raw);
+                return Array.isArray(arr) ? arr : [];
+            } catch (e) {
+                console.warn('Gagal load galeri dari storage:', e);
+                return [];
+            }
+        }
+
+        function saveGalleryToStorage(arr) {
+            try {
+                // safety: keep max N items (newest → cut tail if overflow)
+                const trimmed = (arr || []).slice(0, GALLERY_MAX_ITEMS);
+                localStorage.setItem(GALLERY_STORAGE_KEY, JSON.stringify(trimmed));
+                return true;
+            } catch (e) {
+                console.warn('Gagal simpan galeri (kemungkinan quota penuh):', e);
+                if (e && String(e.message).toLowerCase().includes('quota')) {
+                    alert('⚠️ Memori browser penuh! Galeri tidak bisa disimpan lagi.\\nSilakan klik tombol "Kosongkan Galeri" atau hapus cache browser.');
+                }
+                return false;
+            }
+        }
+
+        function pushGalleryItemStorage(item) {
+            const current = loadGalleryFromStorage();
+            // prepend (newest first), then trim
+            current.unshift(item);
+            saveGalleryToStorage(current);
+        }
+
+        function updateGalleryItemUploadStatus(dataUrlKey, { uploaded, driveUrl }) {
+            const items = loadGalleryFromStorage();
+            let changed = false;
+            items.forEach(it => {
+                if (it && it.dataUrl && dataUrlKey && (it.dataUrl === dataUrlKey || (it.id && dataUrlKey.id && it.id === dataUrlKey.id))) {
+                    if (typeof uploaded !== 'undefined') it.uploaded = uploaded;
+                    if (typeof driveUrl !== 'undefined') it.driveUrl = driveUrl;
+                    changed = true;
+                }
+            });
+            if (changed) saveGalleryToStorage(items);
+        }
+
+        function clearGalleryStorage() {
+            try { localStorage.removeItem(GALLERY_STORAGE_KEY); } catch(e){}
+            photoCounter = 1;
+            saveCounterToStorage();
+            if (galleryGrid) galleryGrid.innerHTML = '';
+            if (gallerySection) gallerySection.style.display = 'none';
+        }
+
+        // Counter persistence
+        const COUNTER_STORAGE_KEY = 'photobooth_counter_v1';
+        function saveCounterToStorage() {
+            try { localStorage.setItem(COUNTER_STORAGE_KEY, String(photoCounter || 1)); } catch(e){}
+        }
+        function loadCounterFromStorage() {
+            try {
+                const v = parseInt(localStorage.getItem(COUNTER_STORAGE_KEY) || '1', 10);
+                return isNaN(v) || v < 1 ? 1 : v;
+            } catch(e){ return 1; }
+        }
+
+        // ========================================================
+        // DELETE PHOTO (DOM + localStorage sync)
+        // ========================================================
+        function hapusFoto({ id, dataUrl, itemElement }) {
+            // 1. Cari target referensi (prioritas ID, lalu dataUrl, lalu element)
+            let targetId = id;
+            let targetDataUrl = dataUrl;
+
+            if (itemElement && !targetId) {
+                targetId = itemElement.dataset.galleryId || null;
+            }
+            if (!targetDataUrl && itemElement) {
+                const img = itemElement.querySelector('img.photo-preview');
+                if (img) targetDataUrl = img.src || null;
+            }
+
+            // 2. Konfirmasi user
+            const ya = confirm('🗑️ Yakin ingin menghapus foto ini?\n\nFoto yang sudah diupload ke Google Drive TIDAK akan terhapus di Drive. Yang terhapus hanya galeri lokal di browser ini.');
+            if (!ya) return;
+
+            // 3. Hapus dari localStorage
+            try {
+                const items = loadGalleryFromStorage();
+                if (items && items.length) {
+                    const filtered = items.filter(it => {
+                        // Match by ID terlebih dahulu (akurat)
+                        if (targetId && it && it.id && String(it.id) === String(targetId)) return false;
+                        // Match by dataUrl fallback
+                        if (targetDataUrl && it && it.dataUrl && it.dataUrl === targetDataUrl) return false;
+                        return true;
+                    });
+                    saveGalleryToStorage(filtered);
+                }
+            } catch (e) {
+                console.warn('Gagal hapus dari storage:', e);
+            }
+
+            // 4. Hapus dari DOM (dengan animasi)
+            if (itemElement && itemElement.parentNode) {
+                itemElement.classList.add('deleting');
+                setTimeout(() => {
+                    if (itemElement.parentNode) {
+                        itemElement.parentNode.removeChild(itemElement);
+                    }
+                    // 5. Cek apakah galeri sudah kosong → sembunyikan section
+                    try {
+                        const sisa = galleryGrid ? galleryGrid.querySelectorAll('.gallery-item').length : 0;
+                        if (sisa === 0 && gallerySection) {
+                            gallerySection.style.display = 'none';
+                        }
+                        applyGalleryLayout();
+                    } catch(e){}
+                }, 380);
+            } else {
+                // Fallback jika element tidak tersedia: refresh seluruh galeri dari storage
+                try {
+                    galleryGrid.innerHTML = '';
+                    restoreGalleryFromStorage();
+                } catch(e){}
+            }
+        }
+
+        // ========================================================
+        // ADD GALLERY ITEM RENDERER (reusable from tambahKeGaleri & restore)
+        // ========================================================
+        function renderGalleryItem({ id, dataUrl, fileName, uploaded, driveUrl, appendMode }) {
+            if (!dataUrl) return null;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'gallery-item';
+            if (settings.photoLayout === 'portrait') itemDiv.classList.add('portrait-item');
+            if (id) itemDiv.dataset.galleryId = String(id);
+            if (uploaded) itemDiv.dataset.uploaded = '1';
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn-delete';
+            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.type = 'button';
+            deleteBtn.title = 'Hapus foto ini dari galeri';
+            deleteBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hapusFoto({ id, dataUrl, itemElement: itemDiv });
+            };
+
+            const imgEl = document.createElement('img');
+            imgEl.className = 'photo-preview';
+            imgEl.src = dataUrl;
+
+            const openBtn = document.createElement('button');
+            openBtn.className = 'btn-drive';
+            openBtn.innerHTML = '🔍 Lihat di Halaman Baru';
+            openBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            openBtn.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
+            openBtn.onclick = () => bukaFotoDiHalamanBaru(dataUrl, fileName, uploaded && driveUrl ? driveUrl : null);
+
+            const loadingText = document.createElement('span');
+            loadingText.className = 'loading-text';
+            loadingText.innerHTML = '⏳ Sedang mengupload... Mohon tunggu.';
+
+            const driveBtn = document.createElement('button');
+            driveBtn.className = 'btn-drive';
+
+            const qrWrapper = document.createElement('div');
+            qrWrapper.className = 'qr-wrapper';
+            const qrText = document.createElement('p');
+            qrText.innerHTML = 'Scan untuk Download';
+            const qrCodeDiv = document.createElement('div');
+            qrCodeDiv.className = 'qr-code-img';
+            qrWrapper.appendChild(qrText);
+            qrWrapper.appendChild(qrCodeDiv);
+
+            // Handle already-uploaded state (restored from storage)
+            if (uploaded && driveUrl) {
+                driveBtn.innerHTML = '✅ Sudah Terupload';
+                driveBtn.style.background = '#28a745';
+                driveBtn.disabled = true;
+                driveBtn.style.display = 'none';
+
+                // Tombol khusus untuk buka halaman QR BESAR
+                const showBigQrBtn = document.createElement('button');
+                showBigQrBtn.className = 'btn-drive';
+                showBigQrBtn.innerHTML = '📱 Tampilkan QR Besar';
+                showBigQrBtn.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                showBigQrBtn.style.boxShadow = '0 4px 12px rgba(245, 87, 108, 0.35)';
+                showBigQrBtn.onclick = () => bukaFotoDiHalamanBaru(dataUrl, fileName, driveUrl);
+
+                qrWrapper.style.display = 'flex';
+                const qrImg = document.createElement('img');
+                qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(driveUrl);
+                qrImg.style.width = '150px';
+                qrImg.style.height = '150px';
+                qrCodeDiv.appendChild(qrImg);
+                qrText.innerHTML = '✅ Sudah diupload • <a href="' + driveUrl + '" target="_blank" style="color:#2563eb;font-weight:700;">Buka di Drive</a> • Scan QR untuk Download';
+
+                itemDiv.appendChild(deleteBtn);
+                itemDiv.appendChild(imgEl);
+                itemDiv.appendChild(openBtn);
+                itemDiv.appendChild(loadingText);
+                itemDiv.appendChild(driveBtn);
+                itemDiv.appendChild(showBigQrBtn);
+                itemDiv.appendChild(qrWrapper);
+            } else {
+                driveBtn.innerHTML = '☁️ Upload & Buat QR Code';
+                // Inject hidden metadata element (for update on upload success)
+                if (driveUrl) {
+                    const meta = document.createElement('div');
+                    meta.className = 'upload-meta';
+                    meta.style.cssText = 'display:none;';
+                    meta.textContent = driveUrl;
+                    itemDiv.appendChild(meta);
+                }
+
+                driveBtn.onclick = () => {
+                    uploadKeDrive(dataUrl, fileName, driveBtn, loadingText, qrWrapper, qrCodeDiv, { id });
+                };
+
+                itemDiv.appendChild(deleteBtn);
+                itemDiv.appendChild(imgEl);
+                itemDiv.appendChild(openBtn);
+                itemDiv.appendChild(loadingText);
+                itemDiv.appendChild(driveBtn);
+                itemDiv.appendChild(qrWrapper);
+            }
+
+            if (appendMode === 'append') galleryGrid.appendChild(itemDiv);
+            else galleryGrid.prepend(itemDiv);
+
+            return itemDiv;
+        }
+
+        // ========================================================
+        // RESTORE GALLERY ON PAGE LOAD
+        // ========================================================
+        function restoreGalleryFromStorage() {
+            const items = loadGalleryFromStorage();
+            if (!items || !items.length) return;
+
+            gallerySection.style.display = 'block';
+            galleryGrid.innerHTML = '';
+
+            // items are stored newest-first → render in order (newest still first)
+            items.forEach(it => {
+                renderGalleryItem({ ...it, appendMode: 'append' });
+            });
+
+            // Also update event name input (last)
+            applyGalleryLayout();
+        }
+
+        photoCounter = loadCounterFromStorage();
+
+        try {
+            initSettings();
+        } catch (e) {
+            console.warn('Gagal init settings di load:', e);
+            try { applyGalleryLayout(); } catch(_){}
+        }
+
+        try {
+            restoreGalleryFromStorage();
+            console.log('[OK] Galeri dipulihkan dari localStorage (survive refresh ✓)');
+        } catch (e) {
+            console.warn('Gagal restore galeri saat load:', e);
+        }
+
+        // SVG Paths for fullscreen icons (enter & exit)
+        const FS_ENTER_SVG = "M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z";
+        const FS_EXIT_SVG = "M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z";
+
+        // Fullscreen Toggle Function (View Only Mode)
+        async function toggleFullscreenView() {
+            try {
+                const isCurrentlyFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+
+                if (!isCurrentlyFullscreen) {
+                    // Request fullscreen on camera container only
+                    if (cameraContainer.requestFullscreen) {
+                        await cameraContainer.requestFullscreen();
+                    } else if (cameraContainer.webkitRequestFullscreen) {
+                        await cameraContainer.webkitRequestFullscreen();
+                    } else if (cameraContainer.msRequestFullscreen) {
+                        await cameraContainer.msRequestFullscreen();
+                    }
+                } else {
+                    // Exit fullscreen
+                    if (document.exitFullscreen) {
+                        await document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        await document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        await document.msExitFullscreen();
+                    }
+                }
+            } catch (err) {
+                console.error('Fullscreen error:', err);
+                alert('Tidak dapat masuk mode layar penuh. Silakan coba lagi atau tekan F11.');
+            }
+        }
+
+        // Update UI when fullscreen state changes
+        function handleFullscreenChange() {
+            const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            const isCameraFs = isFullscreen === cameraContainer;
+
+            // Toggle icon
+            if (fullscreenIcon) {
+                fullscreenIcon.innerHTML = `<path d="${isCameraFs ? FS_EXIT_SVG : FS_ENTER_SVG}"/>`;
+            }
+
+            // Toggle body class for info overlay
+            if (isCameraFs) {
+                document.body.classList.add('fullscreen-active');
+            } else {
+                document.body.classList.remove('fullscreen-active');
+            }
+
+            // Update button title
+            if (fullscreenBtn) {
+                fullscreenBtn.title = isCameraFs
+                    ? 'Keluar Layar Penuh'
+                    : 'Layar Penuh (View Only)';
+            }
+        }
+
+        // Listen for fullscreen change events (cross-browser)
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+        // Fullscreen button click
+        if (fullscreenBtn) {
+            fullscreenBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleFullscreenView();
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            const activeEl = document.activeElement;
+            const isTyping = activeEl && (
+                activeEl.tagName === 'INPUT' ||
+                activeEl.tagName === 'TEXTAREA' ||
+                activeEl.tagName === 'SELECT' ||
+                activeEl.isContentEditable
+            );
+            const uiOpen = sidebar.classList.contains('active') || settingsModal.classList.contains('active');
+
+            // Shortcut F: Toggle fullscreen view
+            if ((e.key === 'f' || e.key === 'F') && !isTyping && !uiOpen) {
+                toggleFullscreenView();
+            }
+
+            // Shortcut SPACE / ENTER: Take photo (jepret) — works even in fullscreen
+            if ((e.key === ' ' || e.key === 'Enter') && !isTyping && !uiOpen) {
+                e.preventDefault();
+                if (!snapBtn.disabled && !isCounting) {
+                    snapBtn.click();
+                }
+            }
+        });
+
+        // Helper function to display frame
+        function displayFrame(frameData) {
+            if (frameData) {
+                frameOverlay.src = frameData;
+                frameOverlay.style.display = 'block';
+                framePreviewImg.src = frameData;
+                framePreviewImg.style.display = 'block';
+            } else {
+                frameOverlay.src = '';
+                frameOverlay.style.display = 'none';
+                framePreviewImg.src = '';
+                framePreviewImg.style.display = 'none';
+            }
+        }
+
+        // Initialize Settings
+        function initSettings() {
+            settingCameraType.value = settings.cameraType;
+            settingCameraResolution.value = settings.cameraResolution;
+            settingPhotoLayout.value = settings.photoLayout;
+            settingGoogleScriptUrl.value = settings.googleScriptUrl;
+            settingDslrServerUrl.value = settings.dslrServerUrl;
+            settingDefaultEventName.value = settings.defaultEventName;
+            settingPhotoQuality.value = settings.photoQuality;
+            settingCountdown.checked = settings.enableCountdown;
+            settingFlash.checked = settings.enableFlash;
+            
+            if (settings.defaultEventName) {
+                eventNameInput.value = settings.defaultEventName;
+            }
+            
+            // Display saved frame
+            displayFrame(settings.frameData);
+            applyGalleryLayout();
+        }
+
+        // Open Modal
+        function openModal() {
+            initSettings();
+            applyGalleryLayout();
+            settingsModal.classList.add('active');
+        }
+
+        function applyGalleryLayout() {
+            if (!galleryGrid) return;
+            galleryGrid.classList.toggle('portrait-layout', settings.photoLayout === 'portrait');
+        }
+
+        // Close Modal
+        function closeModal() {
+            settingsModal.classList.remove('active');
+        }
+
+        // ========================================================
+        // HELPER: Validate Google Apps Script Web App URL
+        // ========================================================
+        function isValidAppsScriptUrl(url) {
+            if (!url || typeof url !== 'string') return false;
+            const trimmed = url.trim();
+            // Check standard Google Apps Script deployment pattern
+            const pattern = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/;
+            // Also allow /dev deployments for testing
+            const devPattern = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/dev$/;
+            return pattern.test(trimmed) || devPattern.test(trimmed);
+        }
+
+        // ========================================================
+        // HELPER: Get detailed Apps Script error diagnosis
+        // ========================================================
+        function getScriptErrorDiagnosis(error, responseText, statusCode) {
+            const tips = [];
+
+            if (error && error.name && error.name.includes('TypeError') && String(error.message).includes('fetch')) {
+                tips.push('⚠️ Kemungkinan masalah CORS / jaringan.');
+            }
+
+            if (statusCode === 403 || statusCode === 401) {
+                tips.push('🔒 Error 403: Akses ditolak.');
+                tips.push('   • Buka script.google.com → Deploy → Manage deployments.');
+                tips.push('   • Pastikan setting "Who has access" = "Anyone" (Siapapun).');
+                tips.push('   • Jangan pilih "Only myself" atau "Anyone within organization".');
+            } else if (statusCode === 404) {
+                tips.push('❌ Error 404: URL tidak ditemukan.');
+                tips.push('   • Pastikan URL Web App yang kamu paste BENAR.');
+                tips.push('   • Harus diakhiri dengan /exec (buka /exec bukan /dev untuk live).');
+                tips.push('   • Jangan ada spasi/karakter aneh di akhir URL.');
+            } else if (statusCode && statusCode >= 500) {
+                tips.push('💥 Server Apps Script error (5xx).');
+                tips.push('   • Ada bug di kode Apps Script-mu.');
+                tips.push('   • Cek Execution log di script.google.com.');
+            } else if (responseText && responseText.toLowerCase().includes('doPost')) {
+                tips.push('📝 Apps Script tidak punya fungsi doPost(e).');
+            } else if (responseText && !responseText.trim().startsWith('{') && !responseText.trim().startsWith('[')) {
+                tips.push('📝 Format respon Apps Script bukan JSON.');
+                tips.push('   • Pastikan akhir doPost = return ContentService.createTextOutput(JSON.stringify(...)).setMimeType(ContentService.MimeType.JSON);');
+            }
+
+            tips.push('✅ 3 Setting WAJIB Apps Script:');
+            tips.push('   1. Execute as = "Me (emailmu)"');
+            tips.push('   2. Who has access = "Anyone, even anonymous" (Penting!)');
+            tips.push('   3. Deploy ulang dengan NEW deployment (version baru) tiap ubah kode.');
+
+            return tips.join('\n');
+        }
+
+        // Save Settings
+        function handleSaveSettings() {
+            const inputUrl = settingGoogleScriptUrl.value.trim();
+
+            // Validate URL if not empty
+            if (inputUrl && !isValidAppsScriptUrl(inputUrl)) {
+                const confirmSave = confirm(
+                    '⚠️ URL Google Apps Script TIDAK VALID!\n\n' +
+                    'Format yang benar:\n' +
+                    '  https://script.google.com/macros/s/...KODEPANJANG.../exec\n\n' +
+                    'Kesalahan umum:\n' +
+                    '  • Bukan diawali https://script.google.com/\n' +
+                    '  • Tidak diakhiri /exec\n' +
+                    '  • Ada spasi / karakter tambahan di copy-paste\n\n' +
+                    'Apakah kamu tetap ingin menyimpan? (upload foto kemungkinan akan gagal)'
+                );
+                if (!confirmSave) return;
+            }
+
+            settings = {
+                cameraType: settingCameraType.value,
+                cameraResolution: settingCameraResolution.value,
+                photoLayout: settingPhotoLayout.value,
+                googleScriptUrl: inputUrl,
+                dslrServerUrl: settingDslrServerUrl.value.trim(),
+                defaultEventName: settingDefaultEventName.value.trim(),
+                photoQuality: parseFloat(settingPhotoQuality.value),
+                enableCountdown: settingCountdown.checked,
+                enableFlash: settingFlash.checked,
+                frameData: settings.frameData // Keep the current frame data
+            };
+            saveSettings(settings);
+            GOOGLE_SCRIPT_URL = settings.googleScriptUrl;
+
+            // Also persist to localStorage with explicit key to double-sync
+            try { localStorage.setItem('force_gscript_url', inputUrl); } catch(e){}
+
+            if (settings.defaultEventName) {
+                eventNameInput.value = settings.defaultEventName;
+            }
+
+            alert(
+                '✅ Pengaturan berhasil disimpan!\n\n' +
+                'Catatan:\n' +
+                '• Jika tadi mengganti URL Google Script → upload foto berikutnya PAKE URL BARU.\n' +
+                '• Jika sebelumnya ada halaman "Lihat di Halaman Baru" yang terbuka → TUTUP halaman lama itu karena masih pakai URL LAMA.\n' +
+                '• Kalau tetap error → buka menu Pengaturan lalu tekan RESET DEFAULT → masukkan URL baru.\n\n' +
+                (inputUrl ? `URL aktif saat ini:\n${inputUrl.substring(0, 70)}${inputUrl.length > 70 ? '...' : ''}` : '(URL kosong)')
+            );
+            closeModal();
+        }
+
+        // Reset Settings
+        function handleResetSettings() {
+            if (confirm('Yakin ingin mereset semua pengaturan ke default?')) {
+                settings = { ...defaultSettings };
+                saveSettings(settings);
+                GOOGLE_SCRIPT_URL = settings.googleScriptUrl;
+                initSettings();
+                applyGalleryLayout();
+                eventNameInput.value = settings.defaultEventName;
+                displayFrame(settings.frameData);
+                alert('Pengaturan berhasil direset!');
+            }
+        }
+
+        // Menu & Settings Event Listeners
+        menuButton.addEventListener('click', openSidebar);
+        closeModalBtn.addEventListener('click', closeModal);
+        settingsModal.addEventListener('click', function(e) {
+            if (e.target === settingsModal) {
+                closeModal();
+            }
+        });
+        saveSettingsBtn.addEventListener('click', handleSaveSettings);
+        resetSettingsBtn.addEventListener('click', handleResetSettings);
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && settingsModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Initialize on page load
+        initSettings();
+
+        // ========================================================
+        // PRESENTER MODE INITIALIZATION
+        // ========================================================
+        if (IS_PRESENTER_MODE) {
+            // SET CLASS DI HTML + BODY agar CSS selector html.presenter-mode-enabled JALAN
+            try {
+                const root = document.documentElement;
+                if (root) root.classList.add('presenter-mode-enabled');
+            } catch(_) {}
+            document.body.classList.add('presenter-mode');
+            presenterHud.style.display = 'none'; // Pastikan HUD benar-benar off
+
+            // PRESENTER MODE: Countdown DIAKTIFKAN (user request).
+            // Preview foto TETAP DISABLED (tetap user request: no shape, hanya flash + countdown)
+            if (typeof presenterPhotoPreview !== 'undefined' && presenterPhotoPreview) {
+                presenterPhotoPreview.style.display = 'none';
+                presenterPhotoPreview.style.visibility = 'hidden';
+            }
+
+            // ==== AUTO FULLSCREEN: user request DUA KALI KLIK (DOUBLE CLICK) DIMANAPUN ====
+            function doRequestFs() {
+                try {
+                    const el = document.documentElement || document.body;
+                    if (el.requestFullscreen) return el.requestFullscreen();
+                    if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+                    if (el.msRequestFullscreen) return el.msRequestFullscreen();
+                } catch (_) {}
+                return Promise.reject('unsupported');
+            }
+
+            // Coba otomatis saat load (jika browser mengizinkan dari gesture user window.open)
+            doRequestFs().catch(() => {});
+            setTimeout(() => doRequestFs().catch(() => {}), 150);
+            setTimeout(() => doRequestFs().catch(() => {}), 500);
+
+            // Coba juga saat tab difokuskan kembali (Chrome kadang allow)
+            window.addEventListener('focus', function tryFsOnFocus() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    doRequestFs().catch(() => {});
+                }
+            }, { passive: true });
+
+            // FALLBACK UTAMA: DOUBLE CLICK / DUA KALI KLIK CEPAT DIMANAPUN
+            // User spesifik minta: "klik 2kali dimana puntuk full layar"
+            (function installDoubleClickFullscreen() {
+                const MIN_PRESENTER_CLICK_GAP_MS = 400; // rentang deteksi double-click (ms)
+                let lastClickAt = 0;
+                const root = document.documentElement || document.body;
+
+                function onGesture(ev) {
+                    // Jangan trigger jika sudah fullscreen
+                    if (document.fullscreenElement || document.webkitFullscreenElement) return;
+
+                    const now = Date.now();
+                    if (now - lastClickAt <= MIN_PRESENTER_CLICK_GAP_MS) {
+                        // ==== DETECTED: klik 2x cepat ====
+                        lastClickAt = 0; // reset agar tidak 3x klik ikut trigger
+                        doRequestFs().catch(() => {});
+                    } else {
+                        lastClickAt = now;
+                    }
+                }
+
+                // Pasang ke SEMUA element / document level (tanpa overlay agar tidak blokir)
+                document.addEventListener('click', onGesture, { capture: true, passive: true });
+                document.addEventListener('touchstart', onGesture, { capture: true, passive: true });
+                document.addEventListener('keydown', onGesture, { capture: true, passive: true });
+            })();
+
+            // Auto-start camera on presenter tab
+            try {
+                setTimeout(async () => {
+                    if (settings.cameraType === 'canon' || settings.cameraType === 'sony') {
+                        try {
+                            const tempStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                            tempStream.getTracks().forEach(track => track.stop());
+                        } catch (err) {}
+                        const preferredId = await findPreferredCameraDeviceId();
+                        if (preferredId) { await openWebcam(preferredId); }
+                        else { await openWebcam(); }
+                    } else {
+                        await openWebcam();
+                    }
+                }, 300);
+            } catch (err) {
+                console.error('Presenter camera init failed:', err);
+            }
+
+            // Receive commands from CONTROL tab via BroadcastChannel
+            if (broadcastChannel) {
+                broadcastChannel.onmessage = function(ev) {
+                    const msg = ev.data || {};
+                    switch (msg.type) {
+                        case 'countdown':
+                            // ==== PRESENTER COUNTDOWN DIAKTIFKAN (super jelas warna/glow) ====
+                            if (countdownEl) {
+                                countdownEl.textContent = String(msg.value ?? 3);
+                                // Reset inline style: hapus visibility:hidden dari init
+                                countdownEl.style.removeProperty('display');
+                                countdownEl.style.removeProperty('visibility');
+                                countdownEl.style.removeProperty('opacity');
+                                countdownEl.style.removeProperty('transition');
+                                countdownEl.style.removeProperty('filter');
+                                // Force-show via inline (pastikan opacity 100% TIDAK FADE SELAMA COUNTDOWN)
+                                countdownEl.style.setProperty('display', 'block', 'important');
+                                countdownEl.style.setProperty('visibility', 'visible', 'important');
+                                countdownEl.style.setProperty('opacity', '1', 'important');
+                            }
+                            break;
+                        case 'countdown_hide':
+                            if (countdownEl) {
+                                // Langsung HIDE seketika, TIDAK ADA fade agar countdown tampil crisp
+                                // hingga detik terakhir sebelum flash.
+                                countdownEl.style.setProperty('opacity', '0', 'important');
+                                countdownEl.style.setProperty('display', 'none', 'important');
+                                countdownEl.style.setProperty('visibility', 'hidden', 'important');
+                            }
+                            break;
+                        case 'flash':
+                            presenterFlash.classList.add('flash-active');
+                            setTimeout(() => presenterFlash.classList.remove('flash-active'), 160);
+                            break;
+                        case 'photo_preview':
+                            // Photo preview di presenter: TETAP skip display (sesuai permintaan lama user:
+                            // tidak ingin ada shape/frame apapun di layar monitor KECUALI countdown + flash.
+                            if (presenterPhotoPreview) {
+                                presenterPhotoPreview.classList.remove('active');
+                                presenterPhotoPreview.style.display = 'none';
+                                presenterPhotoPreview.style.visibility = 'hidden';
+                            }
+                            break;
+                    }
+                };
+            }
+        }
+
+        // ========================================================
+        // CONTROL TAB BROADCAST HELPERS
+        // ========================================================
+        function sendBroadcast(msg) {
+            if (broadcastChannel && !IS_PRESENTER_MODE) {
+                try { broadcastChannel.postMessage(msg); } catch(e){}
+            }
+        }
+
+        // Update fullscreen info overlay text to include shortcuts
+        if (fullscreenInfo) {
+            fullscreenInfo.innerHTML = '👁️ Mode View Only — <strong>SPACE/ENTER</strong> = Jepret • <strong>F</strong> = Fullscreen • <strong>ESC</strong> = Keluar';
+        }
+        
+        // Sidebar Functions
+        function openSidebar() {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Sidebar Event Listeners
+        menuButton.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+        
+        // Close sidebar with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+                closeSidebar();
+            }
+        });
+        
+        // Sidebar Menu Items
+        sidebarSettings.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+            setTimeout(() => {
+                openModal();
+            }, 300);
+        });
+        
+        sidebarStartCamera.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+            if (!startBtn.disabled) {
+                startBtn.click();
+            }
+        });
+        
+        sidebarTakePhoto.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+            if (!snapBtn.disabled) {
+                snapBtn.click();
+            }
+        });
+
+        sidebarFullscreen.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+            setTimeout(() => {
+                toggleFullscreenView();
+            }, 300);
+        });
+
+        // Open Presenter Mode in New Tab
+        sidebarPresenter.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('presenter', '1');
+            const presenterUrl = currentUrl.toString();
+
+            // Gunakan window.open dengan feature borderless/fullscreen-like
+            // Fallback: jika popup blocked, buka tab biasa
+            const features = 'fullscreen=yes,menubar=no,toolbar=no,location=no,status=no,scrollbars=no,resizable=yes,left=0,top=0,width=' +
+                (screen.availWidth || 1920) + ',height=' + (screen.availHeight || 1080);
+
+            let w;
+            try {
+                w = window.open(presenterUrl, 'HumaSnap_Monitor_' + Date.now(), features);
+            } catch (e) { w = null; }
+
+            if (!w) {
+                // Fallback ke tab biasa (popup blocked)
+                w = window.open(presenterUrl, '_blank', 'noopener,noreferrer');
+            }
+
+            if (!w) {
+                alert('Pop-up diblokir! Izinkan pop-up untuk situs ini, atau buka manual:\n' + presenterUrl);
+            } else {
+                // Kirim pesan ke tab baru untuk auto fullscreen (lebih reliable daripada setTimeout)
+                try { w.focus(); } catch(_) {}
+                setTimeout(() => {
+                    alert('✅ Tab Monitor berhasil dibuka!\n\n• Tab BARU otomatis jadi layar penuh monitor untuk tamu\n• Gunakan TAB INI sebagai kontrol (Shutter, Settings, dll)\n\nShortcut: SPACE/ENTER = Jepret Foto');
+                }, 500);
+            }
+        });
+        
+        sidebarViewGallery.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+            if (gallerySection.style.display !== 'block') {
+                gallerySection.style.display = 'block';
+                gallerySection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                gallerySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // DSLR Camera Control Functions
+        let dslrConnected = false;
+
+        async function checkDslrServer() {
+            try {
+                const response = await fetch(`${settings.dslrServerUrl}/api/status`);
+                const data = await response.json();
+                return data.success && data.camera;
+            } catch (error) {
+                console.log('DSLR server not available:', error);
+                return false;
+            }
+        }
+
+        async function connectDslr() {
+            try {
+                statusText.textContent = 'Menghubungkan ke kamera DSLR...';
+                
+                const response = await fetch(`${settings.dslrServerUrl}/api/connect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    dslrConnected = true;
+                    startBtn.style.display = "none";
+                    snapBtn.disabled = false;
+                    statusText.textContent = `Kamera ${data.camera.model} siap!`;
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                statusText.textContent = 'Gagal menghubungkan ke kamera DSLR!';
+                alert(`Gagal menghubungkan: ${error.message}`);
+            }
+        }
+
+        async function captureDslr() {
+            try {
+                statusText.textContent = 'Mengambil foto dengan DSLR...';
+                
+                const response = await fetch(`${settings.dslrServerUrl}/api/capture`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // For now, since we don't have real photo, we'll use webcam fallback
+                    // In real implementation, we'd fetch the photo from the server
+                    ambilFoto(); // Fallback to webcam capture for now
+                    statusText.textContent = 'Foto berhasil diambil';
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                statusText.textContent = 'Gagal mengambil foto!';
+                alert(`Gagal mengambil foto: ${error.message}`);
+            }
+        }
+
+        // Frame upload event listener (save to settings immediately)
+        settingFrameUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    settings.frameData = event.target.result;
+                    saveSettings(settings);
+                    displayFrame(settings.frameData);
+                }
+                reader.readAsDataURL(file); 
+            }
+        });
+        
+        // Remove frame event listener
+        removeFrameBtn.addEventListener('click', function() {
+            settings.frameData = "";
+            saveSettings(settings);
+            displayFrame(settings.frameData);
+            settingFrameUpload.value = ""; // Clear the file input
+        });
+
+        async function findPreferredCameraDeviceId() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                return null;
+            }
+
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoInputs = devices.filter(device => device.kind === 'videoinput');
+            if (!videoInputs.length) return null;
+
+            const keywords = settings.cameraType === 'canon'
+                ? ['canon', 'eos', 'eos webcam']
+                : settings.cameraType === 'sony'
+                ? ['sony', 'imaging edge', 'sony imaging', 'sony webcam']
+                : ['canon', 'eos', 'sony', 'imaging edge', 'webcam', 'usb video'];
+
+            for (const keyword of keywords) {
+                const match = videoInputs.find(device => device.label.toLowerCase().includes(keyword));
+                if (match) {
+                    return match.deviceId;
+                }
+            }
+
+            return null;
+        }
+
+        async function openWebcam(deviceId = null) {
+            if (!video) throw new Error('Video element tidak ditemukan');
+
+            statusText.textContent = 'Meminta izin kamera...';
+            const { width: idealWidth, height: idealHeight } = getCameraResolution();
+            const baseConstraints = {
+                width: { ideal: idealWidth },
+                height: { ideal: idealHeight },
+                facingMode: 'user'
+            };
+
+            let constraints = { video: baseConstraints, audio: false };
+            if (deviceId) {
+                constraints.video = { ...baseConstraints, deviceId: { exact: deviceId } };
+            }
+
+            let stream;
+            try {
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+            } catch (err) {
+                if (deviceId) {
+                    console.warn('Preferred camera failed, falling back to default camera:', err);
+                    stream = await navigator.mediaDevices.getUserMedia({ video: baseConstraints, audio: false });
+                } else {
+                    throw err;
+                }
+            }
+
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+                startBtn.style.display = 'none';
+                snapBtn.disabled = false;
+                statusText.textContent = `Kamera ${idealWidth}x${idealHeight} siap! Silakan berpose.`;
+            };
+        }
+
+        startBtn.addEventListener('click', async () => {
+            try {
+                if (settings.cameraType === 'canon' || settings.cameraType === 'sony') {
+                    // Try to find the installed Canon / Sony webcam utility first
+                    try {
+                        const tempStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                        tempStream.getTracks().forEach(track => track.stop());
+                    } catch (err) {
+                        // Permission prompt may still appear below.
+                    }
+
+                    const preferredId = await findPreferredCameraDeviceId();
+                    if (preferredId) {
+                        await openWebcam(preferredId);
+                        return;
+                    }
+
+                    alert('Kamera Canon/Sony tidak terdeteksi. Pastikan Canon EOS Webcam Utility atau Sony Imaging Webcam sudah terpasang dan terdaftar sebagai perangkat kamera di sistem.');
+                }
+
+                await openWebcam();
+            } catch (err) {
+                console.error(err);
+                statusText.textContent = 'Gagal mengakses kamera!';
+                alert('Kamera tidak dapat diakses.');
+            }
+        });
+
+        let isCounting = false;
+
+        // ========================================================
+        // CAMERA SHUTTER SOUND — Web Audio API (tanpa file audio)
+        // Bunyi: "klik-tsk" shutter kamera DSLR/Mirrorless realistis
+        // ========================================================
+        let _audioCtxShutter = null;
+        function getShutterAudioCtx() {
+            if (!_audioCtxShutter) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) _audioCtxShutter = new AudioCtx();
+            }
+            return _audioCtxShutter;
+        }
+
+        function playShutterSound() {
+            try {
+                const ctx = getShutterAudioCtx();
+                if (!ctx) return;
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const now = ctx.currentTime;
+
+                // 1) Mechanical SHUTTER CLICK (noise burst + LPF — bunyi "klik" utama)
+                const durClick = 0.05;
+                const bufferSize = Math.max(1, Math.floor(ctx.sampleRate * durClick));
+                const noiseBuf = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const noiseData = noiseBuf.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    const t = i / bufferSize;
+                    noiseData[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 1.8);
+                }
+                const noiseSrc = ctx.createBufferSource();
+                noiseSrc.buffer = noiseBuf;
+                const clickFilter = ctx.createBiquadFilter();
+                clickFilter.type = 'bandpass';
+                clickFilter.frequency.value = 2600;
+                clickFilter.Q.value = 0.9;
+                const clickGain = ctx.createGain();
+                clickGain.gain.setValueAtTime(0, now);
+                clickGain.gain.linearRampToValueAtTime(0.9, now + 0.001);
+                clickGain.gain.exponentialRampToValueAtTime(0.001, now + durClick);
+                noiseSrc.connect(clickFilter).connect(clickGain).connect(ctx.destination);
+                noiseSrc.start(now);
+                noiseSrc.stop(now + durClick + 0.02);
+
+                // 2) MIRROR SLAP — low freq thump (bunyi "puk" pantul cermin kamera)
+                const osc = ctx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(140, now + 0.002);
+                osc.frequency.exponentialRampToValueAtTime(40, now + 0.08);
+                const oscGain = ctx.createGain();
+                oscGain.gain.setValueAtTime(0, now + 0.002);
+                oscGain.gain.linearRampToValueAtTime(0.5, now + 0.005);
+                oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+                osc.connect(oscGain).connect(ctx.destination);
+                osc.start(now + 0.002);
+                osc.stop(now + 0.12);
+
+                // 3) High freq TSK tail (bunyi sisa shutter terbuka)
+                const durTsk = 0.14;
+                const bufTskSize = Math.max(1, Math.floor(ctx.sampleRate * durTsk));
+                const bufTsk = ctx.createBuffer(1, bufTskSize, ctx.sampleRate);
+                const dataTsk = bufTsk.getChannelData(0);
+                for (let i = 0; i < bufTskSize; i++) {
+                    const t = i / bufTskSize;
+                    dataTsk[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 3.2);
+                }
+                const srcTsk = ctx.createBufferSource();
+                srcTsk.buffer = bufTsk;
+                const hpTsk = ctx.createBiquadFilter();
+                hpTsk.type = 'highpass';
+                hpTsk.frequency.value = 4200;
+                const gTsk = ctx.createGain();
+                gTsk.gain.setValueAtTime(0.25, now + 0.01);
+                gTsk.gain.exponentialRampToValueAtTime(0.001, now + durTsk + 0.01);
+                srcTsk.connect(hpTsk).connect(gTsk).connect(ctx.destination);
+                srcTsk.start(now + 0.01);
+                srcTsk.stop(now + durTsk + 0.05);
+
+            } catch (e) {
+                console.warn('Shutter sound play failed:', e);
+            }
+        }
+
+        snapBtn.addEventListener('click', () => {
+            if (isCounting) return;
+            
+            if (settings.enableCountdown) {
+                isCounting = true;
+                snapBtn.disabled = true;
+                let count = 3;
+                countdownEl.textContent = count;
+                countdownEl.style.display = 'block';
+                sendBroadcast({ type: 'countdown', value: count });
+                statusText.textContent = 'Bersiaplah...';
+
+                const timer = setInterval(async () => {
+                    count--;
+                    if (count > 0) {
+                        countdownEl.textContent = count;
+                        sendBroadcast({ type: 'countdown', value: count });
+                    } 
+                    else {
+                        clearInterval(timer);
+                        countdownEl.style.display = 'none';
+                        sendBroadcast({ type: 'countdown_hide' });
+                        
+                        // 🔊 BUNYI SHUTTER KAMERA — tepat saat jepret!
+                        playShutterSound();
+                        
+                        if (settings.cameraType === "canon" || settings.cameraType === "sony") {
+                            if (dslrConnected) {
+                                await captureDslr();
+                            } else {
+                                ambilFoto();
+                            }
+                        } else {
+                            ambilFoto();
+                        }
+                        
+                        isCounting = false;
+                        snapBtn.disabled = false;
+                    }
+                }, 1000);
+            } else {
+                // 🔊 BUNYI SHUTTER KAMERA — mode tanpa countdown
+                playShutterSound();
+                if (settings.cameraType === "canon" || settings.cameraType === "sony") {
+                    if (dslrConnected) {
+                        captureDslr();
+                    } else {
+                        ambilFoto();
+                    }
+                } else {
+                    ambilFoto();
+                }
+                statusText.textContent = 'Foto berhasil diambil!';
+            }
+        });
+
+        // Parse resolution from setting
+        function getCameraResolution() {
+            const [width, height] = settings.cameraResolution.split('x').map(Number);
+            return { width, height };
+        }
+
+        function ambilFoto() {
+            if (settings.enableFlash) {
+                flashScreen.classList.add('flash-active');
+                setTimeout(() => { flashScreen.classList.remove('flash-active'); }, 150);
+                sendBroadcast({ type: 'flash' });
+            }
+
+            try {
+                const context = canvas.getContext('2d');
+                
+                // Use frame overlay size if available, otherwise use camera resolution from settings
+                let w, h;
+                if (frameOverlay.naturalWidth && frameOverlay.naturalHeight) {
+                    w = frameOverlay.naturalWidth;
+                    h = frameOverlay.naturalHeight;
+                } else {
+                    const res = getCameraResolution();
+                    w = res.width;
+                    h = res.height;
+                }
+                canvas.width = w;
+                canvas.height = h;
+
+                context.imageSmoothingEnabled = true;
+                context.imageSmoothingQuality = 'high';
+
+                context.translate(w, 0);
+                context.scale(-1, 1);
+                
+                const videoRatio = video.videoWidth / video.videoHeight;
+                const canvasRatio = w / h;
+                let sx, sy, sWidth, sHeight;
+
+                if (videoRatio > canvasRatio) {
+                    sHeight = video.videoHeight;
+                    sWidth = sHeight * canvasRatio;
+                    sx = (video.videoWidth - sWidth) / 2;
+                    sy = 0;
+                } else {
+                    sWidth = video.videoWidth;
+                    sHeight = sWidth / canvasRatio;
+                    sx = 0;
+                    sy = (video.videoHeight - sHeight) / 2;
+                }
+
+                context.drawImage(video, sx, sy, sWidth, sHeight, 0, 0, w, h);
+                context.setTransform(1, 0, 0, 1, 0, 0);
+
+                if (frameOverlay.src && frameOverlay.style.display !== 'none') {
+                    context.drawImage(frameOverlay, 0, 0, w, h);
+                }
+
+
+                const dataUrl = canvas.toDataURL('image/jpeg', settings.photoQuality); 
+                tambahKeGaleri(dataUrl);
+
+                // Send photo preview to presenter tab (show for 3.5s)
+                sendBroadcast({ type: 'photo_preview', dataUrl: dataUrl, duration: 3500 });
+
+            } catch (error) {
+                alert("Gagal memproses foto.");
+            }
+        }
+
+        // ========================================================
+        // SHARED: Google Apps Script Upload Engine (compatible + diagnosis)
+        // ========================================================
+        async function uploadToAppsScript(targetUrl, { dataUrl, fileName, eventName }, hooks) {
+            const {
+                onLoading = () => {},
+                onSuccess = () => {},
+                onError = () => {},
+                onAlways = () => {}
+            } = hooks || {};
+
+            if (!targetUrl) {
+                onError('URL Google Apps Script kosong! Silakan isi di Pengaturan.');
+                onAlways();
+                return;
+            }
+
+            // PRE-VALIDATION: ensure ALL payload fields are non-empty strings
+            const safeFileName = (fileName && String(fileName).trim()) || `photo_${Date.now()}.jpg`;
+            const safeEventName = (eventName && String(eventName).trim()) || 'Event_Umum';
+            const safeDataUrl = (dataUrl && String(dataUrl).trim().length > 1000) ? dataUrl : null;
+
+            if (!safeDataUrl) {
+                onError('❌ Data foto tidak valid (kosong / rusak). Silakan ambil foto ulang.');
+                onAlways();
+                return;
+            }
+
+            onLoading();
+
+            // Build payload variants
+            const payloadObj = {
+                image: safeDataUrl,
+                filename: safeFileName,
+                event_name: safeEventName,
+                raw_mode: 'json_v1',
+                folderName: safeEventName,
+                _ts: Date.now()
+            };
+
+            const jsonBody = JSON.stringify(payloadObj);
+            const formBody = new URLSearchParams();
+            Object.entries(payloadObj).forEach(([k, v]) => formBody.append(k, String(v)));
+
+            // Strategy 3: Multipart FormData (standard for file uploads, many Apps Script templates expect this)
+            let multipartBody = null;
+            try {
+                const fd = new FormData();
+                fd.append('image', safeDataUrl);
+                fd.append('filename', safeFileName);
+                fd.append('event_name', safeEventName);
+                fd.append('folderName', safeEventName);
+                fd.append('raw_mode', 'multipart_v1');
+                fd.append('_ts', String(Date.now()));
+                multipartBody = fd;
+            } catch (e) {
+                multipartBody = null;
+            }
+
+            let response = null;
+            let text = '';
+            let lastError = null;
+            let usedStrategy = 0;
+
+            const strategies = [
+                {
+                    name: 'Multipart FormData (standard upload)',
+                    options: multipartBody ? { method: 'POST', body: multipartBody } : null
+                },
+                {
+                    name: 'JSON text/plain (no preflight)',
+                    options: {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: jsonBody
+                    }
+                },
+                {
+                    name: 'URL-encoded form',
+                    options: { method: 'POST', body: formBody }
+                }
+            ].filter(s => s.options !== null);
+
+            for (let i = 0; i < strategies.length; i++) {
+                const s = strategies[i];
+                try {
+                    response = await fetch(targetUrl, s.options);
+                    usedStrategy = i + 1;
+                    text = await response.text();
+                    // If server returned success, stop immediately
+                    if (response && response.ok) {
+                        let probeData = null;
+                        try { probeData = JSON.parse(text); } catch (_) {}
+                        if (probeData && (probeData.status === 'success' || probeData.ok || probeData.url)) {
+                            break;
+                        }
+                        // If HTTP 200 but no JSON success, still continue to next strategy
+                        // unless it looks like a real HTML/JSON error we want to show
+                        if (!probeData && text && !text.includes('<!DOCTYPE') && text.length < 200) {
+                            // Probably real error, don't retry
+                            break;
+                        }
+                    } else {
+                        // Not HTTP 2xx — try next strategy
+                        console.warn(`Strategy ${i + 1} (${s.name}) HTTP ${response.status}:`, text.slice(0, 150));
+                        response = null;
+                    }
+                } catch (err) {
+                    lastError = err;
+                    console.warn(`Strategy ${i + 1} (${s.name}) network failed:`, err);
+                    response = null;
+                }
+            }
+
+            if (!response) {
+                const msg =
+                    '❌ GAGAL TERHUBUNG KE GOOGLE APPS SCRIPT\n\n' +
+                    'Kemungkinan penyebab + solusi:\n\n' +
+                    getScriptErrorDiagnosis(lastError, '', null) +
+                    '\n\nDetail error: ' + (lastError ? lastError.message : 'network');
+                onError(msg);
+                onAlways();
+                return;
+            }
+
+            const statusCode = response.status;
+            let data = null;
+            let parseFailMsg = '';
+            try {
+                data = JSON.parse(text);
+            } catch (parseErr) {
+                parseFailMsg = 'Respon bukan JSON';
+                console.warn('Apps Script non-JSON response (strategy ' + usedStrategy + '):', text.slice(0, 300));
+            }
+
+            if (statusCode >= 200 && statusCode < 300 && data && (data.status === 'success' || data.ok || data.url)) {
+                onSuccess({
+                    url: data.url || data.link || data.fileUrl || (data.data && data.data.url),
+                    filename: data.filename || safeFileName,
+                    raw: data,
+                    strategy: usedStrategy,
+                    responseText: text
+                });
+                onAlways();
+                return;
+            }
+
+            const serverMsg = (data && data.message) ? data.message : '';
+            const isSplitError = serverMsg && String(serverMsg).toLowerCase().includes("split");
+
+            const errMsg =
+                '❌ UPLOAD FOTO GAGAL\n\n' +
+                `Status HTTP: ${statusCode}\n` +
+                `Strategy upload: ${usedStrategy}/${strategies.length}\n` +
+                (serverMsg ? `Pesan server: ${serverMsg}\n\n` : '') +
+                (isSplitError
+                    ? '⚠️ PENYEBAB UTAMA:\n   Kode Apps Script kamu mengalami error "Cannot read properties of undefined (reading \'split\')".\n' +
+                      '   Ini terjadi karena variabel yang undefined dipanggil .split().\n\n' +
+                      '   Yang harus diperiksa di Apps Script (doPost):\n' +
+                      '   1. Pastikan kamu cek format payload terlebih dahulu sebelum parsing:\n' +
+                      '      → const body = e.postData ? e.postData.contents : null;\n' +
+                      '   2. Cek apakah image/filename/event_name ada sebelum pakai .split():\n' +
+                      '      → if (!body) return error;\n' +
+                      '      → const data = JSON.parse(body);\n' +
+                      '      → const imageStr = data.image || e.parameter.image || "";\n' +
+                      '      → if (!imageStr) return error("image empty");\n' +
+                      '   3. Jangan langsung .split() tanpa null check.\n\n'
+                    : '') +
+                '===== SOLUSI =====\n' +
+                getScriptErrorDiagnosis(lastError, text, statusCode) +
+                (parseFailMsg ? `\n\nℹ️ Catatan: ${parseFailMsg}.\nPreview respon:\n${text.slice(0, 300)}${text.length > 300 ? '...' : ''}` : '') +
+                `\n\n📎 URL Web App aktif:\n${targetUrl.slice(0, 90)}${targetUrl.length > 90 ? '...' : ''}`;
+
+            onError(errMsg, { statusCode, text, data, strategy: usedStrategy });
+            onAlways();
+        }
+
+        function bukaFotoDiHalamanBaru(dataUrl, fileName, preExistingDriveUrl) {
+            const newWindow = window.open('', '_blank');
+            if (!newWindow) {
+                alert('Gagal membuka halaman baru. Mohon izinkan pop-up untuk situs ini.');
+                return;
+            }
+
+            const inputEventName = eventNameInput.value.trim() || "Event Umum";
+            const forceUrlFromStorage = (function(){ try { return localStorage.getItem('force_gscript_url') || ''; } catch(e){ return ''; } })();
+            const ACTIVE_GOOGLE_SCRIPT_URL = (settings && settings.googleScriptUrl) || forceUrlFromStorage || GOOGLE_SCRIPT_URL || '';
+
+            newWindow.document.write(`
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code ${fileName} - HUMAS BMKG 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0D0117;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+        }
+        .close-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 100;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            line-height: 1;
+            padding: 0;
+        }
+        .close-btn:hover {
+            background: rgba(255, 45, 120, 0.25);
+            border-color: rgba(255, 45, 120, 0.5);
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(255, 45, 120, 0.25);
+        }
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-blob-1 {
+            position: absolute;
+            top: -20%;
+            left: -15%;
+            width: 65vw;
+            height: 65vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FF2D78 0%, transparent 70%);
+            opacity: 0.3;
+            filter: blur(90px);
+            animation: floatBlob 20s ease-in-out infinite;
+        }
+        .bg-blob-2 {
+            position: absolute;
+            bottom: -20%;
+            right: -15%;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, #C084FC 0%, transparent 70%);
+            opacity: 0.25;
+            filter: blur(90px);
+            animation: floatBlob 25s ease-in-out infinite reverse;
+        }
+        .bg-blob-3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFE500 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(70px);
+            animation: floatBlob 18s ease-in-out infinite;
+        }
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5%, -4%) scale(1.06); }
+            66% { transform: translate(-4%, 5%) scale(0.97); }
+        }
+        .qr-page-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 620px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+        .header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .header .logo {
+            width: 70px;
+            height: auto;
+            filter: drop-shadow(0 4px 18px rgba(255, 229, 0, 0.35));
+        }
+        .header .brand {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+            background: linear-gradient(135deg, #FF2D78 0%, #FFE500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .header .event-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #FFE500;
+            letter-spacing: 0.3px;
+        }
+        .qr-section {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 32px;
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            color: #1a202c;
+            position: relative;
+            overflow: hidden;
+        }
+        .qr-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FF2D78, #FFE500, #C084FC);
+            border-radius: 32px 32px 0 0;
+        }
+        .qr-section.hidden-state { display: none; }
+        .qr-title-main {
+            font-size: clamp(22px, 4vw, 30px);
+            font-weight: 800;
+            text-align: center;
+            margin: 0 0 8px 0;
+            color: #0D0117;
+            line-height: 1.2;
+        }
+        .qr-title-main span {
+            background: linear-gradient(135deg, #FF2D78 0%, #FFE500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .qr-subtitle {
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            margin: 0 0 32px 0;
+            color: #64748b;
+            line-height: 1.6;
+            max-width: 440px;
+        }
+        .qr-code-big {
+            padding: 28px;
+            background: #ffffff;
+            border-radius: 28px;
+            border: 3px solid transparent;
+            background-image: linear-gradient(white, white),
+                              linear-gradient(135deg, #FF2D78 0%, #FFE500 100%);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            box-shadow:
+                0 12px 40px rgba(255, 45, 120, 0.18),
+                0 4px 12px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+        .qr-code-big img {
+            display: block;
+            width: min(420px, 70vw);
+            height: min(420px, 70vw);
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        @media (max-width: 480px) {
+            .qr-section { padding: 36px 24px; border-radius: 26px; }
+            .qr-code-big { padding: 20px; border-radius: 22px; }
+        }
+        .qr-footer-text {
+            margin-top: 28px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #FF2D78;
+            text-align: center;
+            line-height: 1.7;
+        }
+        .qr-footer-text a {
+            color: #FF2D78;
+            text-decoration: none;
+            border-bottom: 2px solid rgba(255, 45, 120, 0.25);
+            padding-bottom: 2px;
+            transition: all 0.2s;
+            font-weight: 700;
+        }
+        .qr-footer-text a:hover {
+            border-color: #FF2D78;
+            color: #C084FC;
+        }
+        .success-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 28px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.15) 100%);
+            color: #16a34a;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .pending-upload-placeholder {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            padding: 80px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 520px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .pending-upload-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #667eea, #FF2D78, transparent);
+        }
+        .pending-upload-placeholder .spinner {
+            width: 84px;
+            height: 84px;
+            border: 6px solid rgba(102, 126, 234, 0.2);
+            border-top-color: #FF2D78;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 32px;
+            box-shadow: 0 0 40px rgba(255, 45, 120, 0.25);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .pending-upload-placeholder h3 {
+            margin: 0 0 14px 0;
+            font-size: clamp(22px, 4vw, 28px);
+            font-weight: 800;
+            color: #fff;
+        }
+        .pending-upload-placeholder h3 span {
+            background: linear-gradient(135deg, #FF2D78 0%, #FFE500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pending-upload-placeholder p {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.68);
+            line-height: 1.8;
+            max-width: 400px;
+        }
+        .pending-step {
+            margin-top: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: rgba(102, 126, 234, 0.12);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        .debug-box {
+            position: fixed;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 12px 14px;
+            font-size: 11px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 45, 120, 0.2);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            word-break: break-all;
+            display: none;
+            font-family: monospace;
+            line-height: 1.5;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <button class="close-btn" id="closeBtn" title="Tutup">✕</button>
+
+    <div class="bg-blobs">
+        <div class="bg-blob-1"></div>
+        <div class="bg-blob-2"></div>
+        <div class="bg-blob-3"></div>
+    </div>
+
+    <div class="qr-page-wrapper">
+        <div class="header">
+            <img class="logo" src="https://www.bmkg.go.id/asset/img/logo/logo-bmkg.png" alt="Logo BMKG">
+            <div class="brand">HumaSnap</div>
+            <div class="event-name">🎪 ${inputEventName || 'Event BMKG 2026'}</div>
+        </div>
+
+        <div id="qrPendingArea" class="pending-upload-placeholder">
+            <div class="spinner"></div>
+            <h3><span>Sedang Menyiapkan QR Code</span></h3>
+            <p>Foto sedang diupload ke Google Drive.<br>QR Code akan segera muncul — mohon tunggu sebentar ya.</p>
+            <div class="pending-step" id="pendingStep">⏳ Menyiapkan upload...</div>
+        </div>
+
+        <div id="qrBigSection" class="qr-section hidden-state">
+            <h2 class="qr-title-main"><span>📱 Scan QR Code Ini</span></h2>
+            <p class="qr-subtitle">Arahkan kamera HP ke QR Code dibawah untuk membuka & mendownload foto langsung ke perangkatmu</p>
+            <div class="qr-code-big" id="qrCodeBigDiv">
+            </div>
+            <div class="qr-footer-text" id="qrFooterText"></div>
+            <div class="success-pill" id="successPill" style="display:none;">✅ Foto terupload ke Google Drive</div>
+        </div>
+    </div>
+
+    <div class="debug-box" id="debugBox"></div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = ${JSON.stringify(ACTIVE_GOOGLE_SCRIPT_URL)};
+        const dataUrl = ${JSON.stringify(dataUrl)};
+        const fileName = ${JSON.stringify(fileName)};
+        const eventName = ${JSON.stringify(inputEventName)};
+        const PRE_EXISTING_DRIVE_URL = ${JSON.stringify(preExistingDriveUrl || '')};
+
+        const closeBtn = document.getElementById('closeBtn');
+        const successPill = document.getElementById('successPill');
+        const pendingStep = document.getElementById('pendingStep');
+        const qrPendingArea = document.getElementById('qrPendingArea');
+        const qrBigSection = document.getElementById('qrBigSection');
+        const qrCodeBigDiv = document.getElementById('qrCodeBigDiv');
+        const qrFooterText = document.getElementById('qrFooterText');
+        const debugBox = document.getElementById('debugBox');
+
+        closeBtn.addEventListener('click', function() {
+            window.close();
+        });
+
+        function showFallbackQrAndDownloads(reasonMsg) {
+            if (qrPendingArea) qrPendingArea.style.display = 'none';
+            if (qrBigSection) {
+                qrBigSection.classList.remove('hidden-state');
+                const titleEl = qrBigSection.querySelector('.qr-title-main span');
+                if (titleEl) titleEl.style.color = '#FF2D78';
+                const subtitleEl = qrBigSection.querySelector('.qr-subtitle');
+                if (subtitleEl) subtitleEl.innerHTML = 'Upload ke Google Drive gagal — tapi kamu masih bisa simpan foto secara <strong>langsung</strong> lewat tombol dibawah atau scan QR Code.';
+            }
+            if (qrCodeBigDiv) {
+                qrCodeBigDiv.innerHTML = '';
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:22px;';
+                const photoImg = document.createElement('img');
+                photoImg.src = dataUrl;
+                photoImg.alt = 'Preview foto';
+                photoImg.style.cssText = 'width:min(280px,60vw);height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.2);border:3px solid rgba(255,45,120,0.15);';
+                wrap.appendChild(photoImg);
+                const dlBtn = document.createElement('a');
+                dlBtn.href = dataUrl;
+                dlBtn.download = fileName;
+                dlBtn.textContent = '⬇️ Download Foto Sekarang';
+                dlBtn.style.cssText = 'padding:18px 28px;border-radius:999px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 10px 30px rgba(102,126,234,0.45);';
+                wrap.appendChild(dlBtn);
+                qrCodeBigDiv.appendChild(wrap);
+            }
+            if (qrFooterText) {
+                qrFooterText.innerHTML =
+                    '💡 <strong>Tips:</strong> Download diatas → lalu share via WhatsApp / Instagram ya.<br>' +
+                    (reasonMsg ? '<span style="color:#FF2D78;">Penyebab upload: ' + String(reasonMsg).slice(0, 120).replace(/\\n/g, ' ') + '</span>' : '');
+            }
+            if (successPill) {
+                successPill.style.display = 'inline-flex';
+                successPill.style.background = 'linear-gradient(135deg,rgba(255,45,120,0.15),rgba(102,126,234,0.15))';
+                successPill.style.color = '#FF2D78';
+                successPill.style.borderColor = 'rgba(255,45,120,0.3)';
+                successPill.firstChild && (successPill.firstChild.textContent = successPill.firstChild.textContent.replace('✅ Foto terupload ke Google Drive', '⚠️ Mode Lokal (Download Langsung)'));
+                if (successPill.firstChild && successPill.firstChild.nodeType === 3) {
+                    successPill.textContent = '⚠️ Mode Lokal (Download Langsung)';
+                } else {
+                    successPill.textContent = '⚠️ Mode Lokal (Download Langsung)';
+                }
+            }
+            if (debugBox && reasonMsg) {
+                debugBox.style.display = 'block';
+                debugBox.textContent = String(reasonMsg).slice(0, 1500);
+            }
+        }
+
+        function tampilkanQRBesar(driveUrl) {
+            if (qrPendingArea) qrPendingArea.style.display = 'none';
+            if (qrBigSection) qrBigSection.classList.remove('hidden-state');
+            if (qrCodeBigDiv) {
+                qrCodeBigDiv.innerHTML = '';
+                const qrImg = document.createElement('img');
+                qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=' + encodeURIComponent(driveUrl);
+                qrImg.alt = 'QR Code Download Foto';
+                qrCodeBigDiv.appendChild(qrImg);
+            }
+            if (qrFooterText) {
+                qrFooterText.innerHTML = 'Atau <a href="' + driveUrl + '" target="_blank" rel="noopener">KLIK DISINI</a> untuk buka di tab baru';
+            }
+            if (successPill) successPill.style.display = 'inline-flex';
+        }
+
+        async function uploadToAppsScript(targetUrl, payload, hooks) {
+            const { onLoading, onSuccess, onError, onAlways } = hooks || {};
+            if (!targetUrl) { onError && onError('URL kosong. Silakan set di Pengaturan tab utama.'); onAlways && onAlways(); return; }
+
+            // PRE-VALIDATE payload
+            const safeFileName = (payload.fileName && String(payload.fileName).trim()) || ('HumaSnap_' + Date.now() + '.jpg');
+            const safeEventName = (payload.eventName && String(payload.eventName).trim()) || 'Event_Umum';
+            const safeDataUrl = (payload.dataUrl && String(payload.dataUrl).length > 1000) ? payload.dataUrl : null;
+            if (!safeDataUrl) { onError && onError('Data foto rusak / kosong. Ambil foto ulang di tab utama.'); onAlways && onAlways(); return; }
+
+            onLoading && onLoading(1);
+            const payloadObj = {
+                image: safeDataUrl, filename: safeFileName, event_name: safeEventName,
+                folderName: safeEventName, raw_mode: 'json_v1', _ts: Date.now()
+            };
+            const jsonBody = JSON.stringify(payloadObj);
+            const formBody = new URLSearchParams();
+            Object.entries(payloadObj).forEach(([k,v]) => formBody.append(k, String(v)));
+            let multipartBody = null;
+            try {
+                const fd = new FormData();
+                Object.entries(payloadObj).forEach(([k,v]) => fd.append(k, String(v)));
+                multipartBody = fd;
+            } catch(_) {}
+
+            const strategies = [
+                multipartBody ? { name: 'Multipart FormData', options: { method: 'POST', body: multipartBody } } : null,
+                { name: 'JSON text/plain', options: { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: jsonBody } },
+                { name: 'URL-encoded', options: { method: 'POST', body: formBody } }
+            ].filter(Boolean);
+
+            let response = null, text = '', lastError = null, usedStrategy = 0;
+            for (let i = 0; i < strategies.length; i++) {
+                onLoading && onLoading(i + 1);
+                try {
+                    response = await fetch(targetUrl, strategies[i].options);
+                    usedStrategy = i + 1;
+                    text = await response.text();
+                    if (response.ok) {
+                        let probe = null;
+                        try { probe = JSON.parse(text); } catch(_) {}
+                        if (probe && (probe.status === 'success' || probe.ok || probe.url)) break;
+                        if (!probe && text && !text.includes('<!DOCTYPE') && text.length < 200) break;
+                        response = null;
+                    } else {
+                        response = null;
+                    }
+                } catch (err) {
+                    lastError = err;
+                    response = null;
+                }
+            }
+
+            let data = null, parseErr = false;
+            try { data = JSON.parse(text); } catch(_) { parseErr = true; }
+            if (response && data && (data.status === 'success' || data.url || data.ok)) {
+                onSuccess && onSuccess({ url: data.url || data.link || (data.data && data.data.url), raw: data, strategy: usedStrategy, filename: data.filename || safeFileName });
+            } else {
+                const statusCode = response ? response.status : (text ? 'APP_SCRIPT_ERR' : 'NO_RESPONSE');
+                const serverMsg = (data && data.message) ? String(data.message) : '';
+                const isSplit = serverMsg.toLowerCase().includes('split');
+                const msg = 'Upload gagal.\\n\\n' +
+                    (serverMsg ? 'Server: ' + serverMsg + '\\n\\n' : '') +
+                    (isSplit
+                        ? '⚠️ Error split() berarti kode Apps Script kamu memanggil .split() pada variabel yang undefined.\\n' +
+                          '   Perbaiki di sisi Apps Script (doPost) dengan null-check sebelum .split().\\n\\n'
+                        : '') +
+                    (parseErr && text && !serverMsg ? 'Respon server bukan JSON.\\nPreview: ' + text.slice(0, 150) + '\\n\\n' : '') +
+                    (lastError ? 'Network: ' + (lastError.message || String(lastError)) + '\\n\\n' : '') +
+                    (isSplit ? '' : 'Solusi umum:\\n' +
+                    '1. Execute as = Me.\\n' +
+                    '2. Who has access = Anyone, even anonymous.\\n' +
+                    '3. Deploy → New version (bukan update existing).\\n\\n') +
+                    'URL aktif: ' + targetUrl.slice(0, 80) + (targetUrl.length > 80 ? '...' : '');
+                onError && onError(msg, serverMsg || (text && !parseErr ? text : lastError));
+            }
+            onAlways && onAlways();
+        }
+
+        let isUploading = false;
+        function uploadAndGenerateQR() {
+            if (isUploading) return;
+            if (!GOOGLE_SCRIPT_URL) {
+                const errMsg = 'URL Google Apps Script BELUM DISET — lanjut pakai Mode Lokal (Download langsung & preview foto).';
+                showFallbackQrAndDownloads(errMsg);
+                return;
+            }
+            isUploading = true;
+            if (pendingStep) pendingStep.textContent = '⏳ Menyiapkan upload...';
+
+            uploadToAppsScript(GOOGLE_SCRIPT_URL, { dataUrl, fileName, eventName }, {
+                onLoading: (step) => {
+                    if (pendingStep) pendingStep.textContent = '⏳ Upload ke Drive (percobaan ' + step + '/3)...';
+                },
+                onSuccess: (res) => {
+                    const linkDriveTamu = res.url;
+                    tampilkanQRBesar(linkDriveTamu);
+                    isUploading = false;
+                },
+                onError: (msg, cause) => {
+                    isUploading = false;
+                    showFallbackQrAndDownloads(cause || msg);
+                    // Alert sekali (opsional) — non-blocking karena user sudah punya tombol download
+                    try { console.warn('Upload failed detail:', msg); } catch(_) {}
+                },
+                onAlways: () => {
+                    isUploading = false;
+                }
+            });
+        }
+
+        window.addEventListener('load', function() {
+            if (PRE_EXISTING_DRIVE_URL) {
+                tampilkanQRBesar(PRE_EXISTING_DRIVE_URL);
+            } else {
+                setTimeout(uploadAndGenerateQR, 500);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.close();
+            }
+        });
+    <\/script>
+</body>
+</html>
+            `);
+            newWindow.document.close();
+        }
+
+        function generatePhotoId() {
+            return 'ph_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+        }
+
+        function tambahKeGaleri(dataUrl) {
+            gallerySection.style.display = 'block';
+            const fileName = `EDRR-2026-Foto-${photoCounter}.jpg`;
+            const id = generatePhotoId();
+
+            pushGalleryItemStorage({
+                id,
+                dataUrl,
+                fileName,
+                uploaded: false,
+                driveUrl: '',
+                createdAt: Date.now()
+            });
+
+            renderGalleryItem({
+                id,
+                dataUrl,
+                fileName,
+                uploaded: false,
+                driveUrl: '',
+                appendMode: 'prepend'
+            });
+
+            saveCounterToStorage();
+            photoCounter++;
+        }
+
+        function buatQrFallback(dataUrl, fileName, qrWrapper, qrCodeDiv, extraMsg) {
+            // Fallback: buat QR yang mengarah ke halaman view foto lokal (buka halaman baru dengan foto)
+            // Karena dataUrl base64 terlalu panjang untuk QR, kita buat halaman download via localStorage key
+            try {
+                const fallbackKey = 'fb_photo_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+                try { localStorage.setItem(fallbackKey, JSON.stringify({ d: dataUrl, n: fileName, t: Date.now() })); } catch (_) {}
+
+                const viewUrl = window.location.origin + window.location.pathname + '?view=' + fallbackKey;
+                qrWrapper.style.display = 'flex';
+                qrCodeDiv.innerHTML = '';
+                const qrImg = document.createElement('img');
+                qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(viewUrl);
+                qrImg.style.width = '150px';
+                qrImg.style.height = '150px';
+                qrCodeDiv.appendChild(qrImg);
+
+                const p = qrWrapper.querySelector('p') || document.createElement('p');
+                if (!qrWrapper.contains(p)) qrWrapper.insertBefore(p, qrCodeDiv);
+                p.innerHTML =
+                    '⚠️ Upload Drive gagal, tapi QR FALLBACK aktif.<br>' +
+                    (extraMsg ? '' : '') +
+                    '<span style="color:#2563eb;font-weight:700;">Download via browser</span> • Atau klik tombol ⬇️';
+
+                // Also add direct download button next to QR
+                const dlBtn = document.createElement('button');
+                dlBtn.type = 'button';
+                dlBtn.innerHTML = '⬇️ Download Foto';
+                dlBtn.style.cssText = 'margin-top:10px;padding:10px 18px;border-radius:12px;border:none;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(102,126,234,0.35);';
+                dlBtn.onclick = function () {
+                    const a = document.createElement('a');
+                    a.href = dataUrl;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+                if (!qrWrapper.querySelector('.dl-fallback-btn')) {
+                    dlBtn.className = 'dl-fallback-btn';
+                    qrWrapper.appendChild(dlBtn);
+                }
+            } catch (e) {
+                console.warn('Gagal membuat QR fallback:', e);
+            }
+        }
+
+        function uploadKeDrive(dataUrl, fileName, btnElement, loadingElement, qrWrapper, qrCodeDiv, opts) {
+            
+            if (!GOOGLE_SCRIPT_URL) {
+                const ok = confirm("⚠️ URL Google Apps Script BELUM DISET!\n\nUpload ke Drive tidak akan jalan.\n\nApakah kamu ingin LANJUT dengan mode FALLBACK (QR Download Lokal + Tombol Download Manual)?");
+                if (!ok) return;
+                loadingElement.style.display = 'none';
+                btnElement.innerHTML = '⚙️ Set URL di Pengaturan';
+                buatQrFallback(dataUrl, fileName, qrWrapper, qrCodeDiv, 'noscript');
+                setTimeout(() => {
+                    try { bukaFotoDiHalamanBaru(dataUrl, fileName, ''); } catch (_) {}
+                }, 300);
+                return;
+            }
+
+            btnElement.style.display = 'none';
+            loadingElement.style.display = 'block';
+            loadingElement.innerHTML = '⏳ Sedang upload ke Google Drive... (percobaan 1/3)';
+
+            const inputEventName = (eventNameInput && eventNameInput.value && eventNameInput.value.trim()) || "Event_Umum";
+
+            uploadToAppsScript(
+                GOOGLE_SCRIPT_URL,
+                { dataUrl, fileName, eventName: inputEventName },
+                {
+                    onLoading: (step) => {
+                        btnElement.style.display = 'none';
+                        loadingElement.style.display = 'block';
+                        if (typeof step === 'number') {
+                            loadingElement.innerHTML = `⏳ Sedang upload ke Google Drive... (percobaan ${step}/3)`;
+                        }
+                    },
+                    onSuccess: (res) => {
+                        loadingElement.style.display = 'none';
+                        btnElement.innerHTML = '✅ Terupload';
+                        btnElement.style.background = '#28a745';
+                        btnElement.disabled = true;
+                        btnElement.style.display = 'none';
+
+                        qrWrapper.style.display = 'flex';
+                        const linkDriveTamu = res.url;
+                        qrCodeDiv.innerHTML = '';
+
+                        const qrImg = document.createElement('img');
+                        qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(linkDriveTamu);
+                        qrImg.style.width = "150px";
+                        qrImg.style.height = "150px";
+                        qrCodeDiv.appendChild(qrImg);
+
+                        if (btnElement.parentElement) {
+                            const existingMeta = btnElement.parentElement.querySelector('.upload-meta');
+                            if (!existingMeta) {
+                                const meta = document.createElement('div');
+                                meta.className = 'upload-meta';
+                                meta.style.cssText = 'display:none;';
+                                meta.textContent = linkDriveTamu;
+                                btnElement.parentElement.appendChild(meta);
+                            }
+                        }
+
+                        const itemId = opts && opts.id ? opts.id : null;
+                        updateGalleryItemUploadStatus(itemId ? { id: itemId } : dataUrl, { uploaded: true, driveUrl: linkDriveTamu });
+                        pushGalleryItemStorageUpdate(dataUrl, linkDriveTamu, itemId);
+
+                        setTimeout(() => {
+                            try {
+                                bukaFotoDiHalamanBaru(dataUrl, fileName, linkDriveTamu);
+                            } catch (e) {
+                                console.warn('Gagal membuka halaman QR besar:', e);
+                            }
+                        }, 300);
+                    },
+                    onError: (errMsg) => {
+                        loadingElement.style.display = 'none';
+                        btnElement.style.display = 'block';
+                        btnElement.innerHTML = '🔄 Upload Ulang';
+                        btnElement.style.background = 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)';
+                        console.error('[UPLOAD FAILED]', errMsg);
+
+                        // Tampilkan alert error HANYA SEKALI, lalu buat QR fallback otomatis
+                        const sudahPernahFallback = qrWrapper && qrWrapper.querySelector('.dl-fallback-btn') !== null;
+                        if (!sudahPernahFallback) {
+                            alert(errMsg + '\n\n✅ Tenang! FALLBACK MODE AKTIF:\n• QR Code Download Lokal akan dibuat\n• Tombol Download Manual juga tersedia\n\nUntuk memperbaiki upload Drive, periksa kode Apps Script kamu (error "reading split" = variabel undefined di sisi server).');
+                        }
+                        buatQrFallback(dataUrl, fileName, qrWrapper, qrCodeDiv, '');
+                    },
+                    onAlways: () => {}
+                }
+            );
+        }
+
+        function pushGalleryItemStorageUpdate(dataUrlKey, driveUrl, idHint) {
+            const items = loadGalleryFromStorage();
+            let changed = false;
+            items.forEach(it => {
+                const matchDataUrl = dataUrlKey && it.dataUrl === dataUrlKey;
+                const matchId = idHint && it.id && it.id === idHint;
+                if (matchDataUrl || matchId) {
+                    it.uploaded = true;
+                    it.driveUrl = driveUrl;
+                    changed = true;
+                }
+            });
+            if (changed) saveGalleryToStorage(items);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "description": "Create engaging photobooth landing pages that showcase services and attract customers with a sleek, user-friendly design optimized for conversions.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
